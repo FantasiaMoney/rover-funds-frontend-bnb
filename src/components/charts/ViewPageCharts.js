@@ -69,7 +69,19 @@ class ViewPageCharts extends React.Component {
   }
 
   updateChartsData = async () => {
-    axios.get(BloxyChartsLink + this.props.address).then((data) => {
+    try{
+      const data = await axios.get(BloxyChartsLink + this.props.address)
+      if(!data.data.hasOwnProperty('error')){
+        this.parseData(data)
+      }else{
+        console.log("Can not load charts data ", data.data.error)
+      }
+    }catch(e){
+      console.log("Can not load charts data ", e)
+    }
+  }
+
+  parseData = async (data) => {
     if(this._isMounted){
     data = data.data.map((v) => v)
     // remove wrong day
@@ -286,7 +298,6 @@ class ViewPageCharts extends React.Component {
       isDataLoad: true
     })
   }
-  })
   }
 
   render(){
