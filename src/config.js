@@ -6,7 +6,16 @@ export const MAX_TOKENS = 20
 
 export const OneInchApi = 'https://api.1inch.exchange/swagger/binance/v3.0/56/'
 
-// // TEST NET BSC
+// // BSC
+// export const NeworkID = 56
+// export const SmartFundRegistryADDRESS = ''
+// export const ExchangePortalAddressV7 = ''
+// export const EtherscanLink = 'https://bscscan.com/'
+// export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
+// export const BloxyLink = 'https://bloxy.info/portfolios/'
+
+
+// TEST NET BSC
 export const NeworkID = 97
 export const SmartFundRegistryADDRESS = '0xdb622775C42B83bfE11e218E0F8b8ec3435ACdE9'
 export const ExchangePortalAddressV7 = '0x79E33056324447e0153239C21DF3e05eE43dF86C'
