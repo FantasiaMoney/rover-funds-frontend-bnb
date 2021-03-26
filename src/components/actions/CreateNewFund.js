@@ -3,8 +3,7 @@ import React, { Component } from 'react'
 import {
   APIEnpoint,
   SmartFundRegistryABIV7,
-  SmartFundRegistryADDRESS,
-  SmartFundRegistryOracleBasedADDRESS
+  SmartFundRegistryADDRESS
 } from '../../config.js'
 
 import { Modal, Form } from "react-bootstrap"
@@ -27,8 +26,7 @@ class CreateNewFund extends Component {
       FundAsset: 'ETH',
       FundName: '',
       TradeVerification: true,
-      FundType:'Full',
-      FundVersion:"V7(Onchain only)"
+      FundType:'Full'
     }
   }
 
@@ -36,11 +34,9 @@ class CreateNewFund extends Component {
   if(this.state.Percent > 0 && this.state.Percent <= 30){
 
   // select registry address (v7 or v8)
-  const registryAddress = this.state.FundVersion === "V8(Oracle support)"
-  ? SmartFundRegistryOracleBasedADDRESS
-  : SmartFundRegistryADDRESS
+  const registryAddress = SmartFundRegistryADDRESS
 
-  console.log("this.state.FundVersion", this.state.FundVersion, "registryAddress", registryAddress)
+  console.log("registryAddress", registryAddress)
 
   const contract = new this.props.web3.eth.Contract(SmartFundRegistryABIV7, registryAddress)
     if(this.state.FundName !== ''){
@@ -110,7 +106,6 @@ class CreateNewFund extends Component {
       FundAsset: 'ETH',
       FundName: '',
       FundType:'Full',
-      FundVersion:"V7(Onchain only)",
       TradeVerification: true
     })
   }
@@ -194,19 +189,6 @@ class CreateNewFund extends Component {
             <option>Light</option>
           </Form.Control>
           </Form.Group>
-
-          {
-            /* HIDE v8 untill fix bug
-            <Form.Group controlId="FundVersion">
-            <Form.Label>Fund version <UserInfo  info="V7: most robust, fully onchain, no oracles. V8: good for buying tokens whose liquidity is spread significantly across multiple swap DEXs. Uses chainlink with 1inch but requires eg 10 minute timeout when a user deposits or withdraws. Lower gas fees for trades. Can support much more than V7 ~20 tokens per fund."/></Form.Label>
-            <Form.Control as="select" name="FundVersion" onChange={e => this.change(e)}>
-              <option>V7(Onchain only)</option>
-              <option>V8(Oracle support)</option>
-            </Form.Control>
-            </Form.Group>
-            */
-          }
-
 
           <hr/>
 

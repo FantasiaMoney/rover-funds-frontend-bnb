@@ -10,8 +10,6 @@ import io from "socket.io-client"
 import _ from 'lodash'
 
 import PoolModal from './actions/Pool/PoolModal'
-import TradeModalV1 from './actions/TradeModalV1'
-import TradeModalV2 from './actions/TradeModalV2'
 import TradeModalV3 from './actions/TradeModalV3'
 import WithdrawManager from './actions/WithdrawManager'
 import WhiteList from './actions/WhiteList'
@@ -282,7 +280,15 @@ class ViewFund extends Component {
         <br />
         <div className="fund-page-charts">
           <div>
-            <InvestorsAlocationChart Data={this.state.shares}/>
+            {
+              this.state.shares
+              ?
+              (
+                <InvestorsAlocationChart Data={this.state.shares}/>
+              )
+              : null
+            }
+
             {
               NeworkID === 1 && !_.isEmpty(this.state.balance)
               ?
@@ -377,7 +383,14 @@ class ViewFund extends Component {
         </div>
         <br />
         <div align="center">
-        <ViewPageCharts address={this.state.smartFundAddress} Data={this.state.balance}/>
+        {
+          NeworkID === 1 && !_.isEmpty(this.state.balance)
+          ?
+          (
+            <ViewPageCharts address={this.state.smartFundAddress} Data={this.state.balance}/>
+          )
+          : null 
+        }
         </div>
         <br />
 
@@ -390,45 +403,15 @@ class ViewFund extends Component {
            (
              <React.Fragment>
              {
-               this.state.version === 1
-               ?
-               (
-                 <li>
-                 <TradeModalV1
-                 web3={this.props.web3}
-                 accounts={this.props.accounts}
-                 smartFundAddress={this.state.smartFundAddress}
-                 pending={this.pending}/>
-                 </li>
-               )
-               :
-               (
-                 <li>
-                 {
-                   this.state.version < 7
-                   ?
-                   (
-                     <TradeModalV2
-                     web3={this.props.web3}
-                     accounts={this.props.accounts}
-                     smartFundAddress={this.state.smartFundAddress}
-                     pending={this.pending}
-                     version={this.state.version}
-                     />
-                   )
-                   :
-                   (
-                     <TradeModalV3
-                     web3={this.props.web3}
-                     accounts={this.props.accounts}
-                     smartFundAddress={this.state.smartFundAddress}
-                     pending={this.pending}
-                     version={this.state.version}
-                     />
-                   )
-                 }
-                 </li>
-               )
+               <li>
+                <TradeModalV3
+                  web3={this.props.web3}
+                  accounts={this.props.accounts}
+                  smartFundAddress={this.state.smartFundAddress}
+                  pending={this.pending}
+                  version={this.state.version}
+                />
+               </li>
              }
 
              {

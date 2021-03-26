@@ -1,5 +1,5 @@
 // switch this to false in production
-const isLocal = false
+const isLocal = true
 
 // maximum available for trade tokens in smart fund
 export const MAX_TOKENS = 3
@@ -9,23 +9,12 @@ export const OneInchApi = 'https://api.1inch.exchange/v1.1/'
 export const OneInchApiTWO = 'https://api.1inch.exchange/v2.0/'
 
 // // Mainnet
-// V1
-// export const SmartFundRegistryADDRESS = '0x9d1a4dac9a35861abc003acfc680bf5ae1b8ed5b'
-// V2
-// export const SmartFundRegistryADDRESS = '0x0f1f46239e6ea6b8922bc4ad343100d47e417a4c'
-// V3
-// export const SmartFundRegistryADDRESS = '0x16875b1b717b3748b18fbb27b036aa4fbca88ec5'
-// V4
-// export const SmartFundRegistryADDRESS = '0x97dc743077611db9a3019023985e180004ce2ace'
-// V5
-// export const SmartFundRegistryADDRESS = '0xD990B951F791f58E7548088f9C1D995cA1A39153'
-// V6
-// export const SmartFundRegistryADDRESS = '0xd81736Eb54D4FbCDF8779E0b488dd1a5f12F2f17'
+
 
 export const SmartFundRegistryADDRESS = '0xEEce063BB21E231B2b9981Ca254B19b651aDb021'
-export const SmartFundRegistryOracleBasedADDRESS = '0x71A4e124dd95f917AAe3E27f9EA2D0516EE1826F'
 export const PoolPortalV6 = '0xd63495461cA711d59e480AC5c3827B7f7C334Fb3'
-export const PoolPortalV7 = '0x6F553184C04a4aD0b3551A4ff60FB73BB6E90408'
+export const PoolPortalV7 = '0xd63495461cA711d59e480AC5c3827B7f7C334Fb3'
+
 // NOTE: don't change this portals address, if you need add new version, just create new const with new version
 export const ExchangePortalAddress = '0x7Fd65F765932E29F041113777C47CE77ecF4E24A'
 export const ExchangePortalAddressV6 = '0xa145eCA55AE0E39D7c228ed7A962424a97AC74cB'
@@ -35,7 +24,7 @@ export const EtherscanLink = 'https://etherscan.io/'
 export const KyberAddress = '0x818E6FECD516Ecc3849DAf6845e3EC868087B755'
 export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'
-export const NeworkID = 1
+export const NeworkID = 97
 export const StakeAddress = '0xf0089381815ed89b52fc9531bc2569c4f945079f'
 export const COTAddress = '0x5c872500c00565505f3624ab435c222e558e9ff8'
 export const ParaswapPriceFeedAddress = '0xC6A3eC2E62A932B94Bac51B6B9511A4cB623e2E5'
@@ -55,73 +44,6 @@ export const CoTraderConfig = '0x9c990064EC31a531752adD55283B560Fb191dE2B'
 export const LinkToken = '0x514910771AF9Ca656af840dff83E8264EcF986CA'
 export const LinkFee = '100000000000000000'
 
-
-// // Rinkeby
-// export const SmartFundRegistryADDRESS = '0x4835E6CFc4754aD9694972B320b1fa2908724206'
-// export const SmartFundRegistryOracleBasedADDRESS = '0xB3B3dCEAEB266EF23338B6584315e3411641e23C'
-// export const EtherscanLink = 'https://rinkeby.etherscan.io/'
-// export const KyberAddress = '0xF77eC7Ed5f5B9a5aee4cfa6FFCaC6A4C315BaC76'
-// export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
-// export const BloxyLink = 'https://bloxy.info/portfolios/'
-// export const NeworkID = 4
-// export const StakeAddress = ''
-// export const COTAddress = '0xddDA173F4Cf5054BBBD9BE581Cb3c8C1aBfe0E9b'
-// export const ParaswapPriceFeedAddress = ''
-// export const ParaswapParamsAddress = ''
-// export const CoTraderBancorEndPoint = !isLocal ? 'https://api-bancor.cotrader.com/' : 'http://localhost:9003/'
-// export const PoolPortalV6 = '0xC9d742f23b4F10A3dA83821481D1B4ED8a596109'
-// export const PoolPortalV7 = '0xC9d742f23b4F10A3dA83821481D1B4ED8a596109'
-// // NOTE: don't change this portals address, if you need add new version, just create new const with new version
-// export const ExchangePortalAddress = '0xB3F0790fBD5635fed2A2AEc21565EE0d91B1C18f'
-// export const ExchangePortalAddressV6 = '0xB3F0790fBD5635fed2A2AEc21565EE0d91B1C18f'
-// export const ExchangePortalAddressV7 = '0xB3F0790fBD5635fed2A2AEc21565EE0d91B1C18f'
-// export const BNTToken = '0x850f56419c669d7363756280f01daC254c0185F3'
-// export const BNTUSDBToken = ''
-// export const UniswapFactory = '0xf5D915570BC477f9B8D6C0E980aA81757A3AaC36'
-// export const OneInch = '0x40c4631687F0A781e1CCE402c1659333A864Ad05'
-// export const UniswapV2Factory = '0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f'
-// export const GetBancorData = '0xD5fa2378f992491B2C2DA55a2C27073B00e52250'
-// export const UniWTH = '0xc778417e063141139fce010982780140aa0cd5ab'
-// export const OneInchProto = '0x40c4631687F0A781e1CCE402c1659333A864Ad05'
-// export const UniswapV2Router02 = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
-// export const CoTraderConfig = '0xF3FdB16D1Bf5312026F937e043749E29d3E95Dd2'
-// export const LinkToken = '0x01BE23585060835E02B77ef475b0Cc51aA1e0709'
-// export const LinkFee = '100000000000000000'
-
-
-// // Ropsten
-// export const SmartFundRegistryADDRESS = '0x0E32171fDE2F8B4Ef4b5F3eaf4F18fAfFCE4F6b2'
-// export const SmartFundRegistryOracleBasedADDRESS = ''
-// export const EtherscanLink = 'https://ropsten.etherscan.io/'
-// export const KyberAddress = '0x818E6FECD516Ecc3849DAf6845e3EC868087B755'
-// export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
-// export const BloxyLink = 'https://bloxy.info/portfolios/'
-// export const NeworkID = 3
-// export const StakeAddress = '0x67bb720dfbcf6ee890ad6aa45e7c3e402bf2dc90'
-// export const COTAddress = '0xab726e4664d1c28B084d77cD9be4eF18884e858d'
-// export const ParaswapPriceFeedAddress = '0x5ca10df04e94ac4a68b1e86facc271a34082293c'
-// export const ParaswapParamsAddress = '0x6fa269bba578d3d12e262a85feb15641a7f17ed5'
-// export const CoTraderBancorEndPoint = !isLocal ? 'https://api-bancor.cotrader.com/' : 'http://localhost:9003/'
-// export const PoolPortalV6 = '0xedDF05F60f4ef35b20E6a9Bd7ad7Ecc74ae4e2e9'
-// export const PoolPortalV7 = '0xedDF05F60f4ef35b20E6a9Bd7ad7Ecc74ae4e2e9'
-// // NOTE: don't change this portals address, if you need add new version, just create new const with new version
-// export const ExchangePortalAddress = '0x4065748B397179Dc5A1Acd1E861Cc9186F081141'
-// export const ExchangePortalAddressV6 = '0x4065748B397179Dc5A1Acd1E861Cc9186F081141'
-// export const ExchangePortalAddressV7 = '0x4065748B397179Dc5A1Acd1E861Cc9186F081141'
-//
-// export const BNTToken = '0xc74bE418ADf788a04dB7d23E3916f332B74A9617'
-// //export const BNTEther = '0xD368b98d03855835E2923Dc000b3f9c2EBF1b27b'
-// export const BNTUSDBToken = ''
-// export const UniswapFactory = '0x9c83dCE8CA20E9aAF9D3efc003b2ea62aBC08351'
-// export const OneInch = '0xc9536F9cAe60F671f2704C6F4aC3Bf2076137337'
-// export const UniswapV2Factory = '0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f'
-// export const GetBancorData = '0x9D4249D4398b0E7c6459277B58fb470490DE8a0e'
-// export const UniWTH = '0xc778417e063141139fce010982780140aa0cd5ab'
-// export const OneInchProto = '0xc9536F9cAe60F671f2704C6F4aC3Bf2076137337'
-// export const UniswapV2Router02 = '0x7a250d5630B4cF539739dF2C5dAcb4c659F2488D'
-// export const CoTraderConfig = ''
-// export const LinkToken = ''
-// export const LinkFee = '100000000000000000'
 
 
 /* TODO: MOVE ALL ABI to a separate file ABI.js*/

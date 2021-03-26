@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import { Button, Modal, Tabs, Tab } from 'react-bootstrap'
-import BancorPool from './Bancor/BancorPool'
 import UniswapPool from './Uniswap/UniswapPool'
-import BalancerPool from './Balancer/BalancerPool'
 import SetGasPrice from '../../settings/SetGasPrice'
 import TradeFreezeWarning from '../TradeFreezeWarning'
 
@@ -33,33 +31,9 @@ class PoolModal extends Component {
       </Modal.Header>
       <Modal.Body>
         <Tabs>
-        <Tab eventKey="bancor" title="Bancor">
-        <br/>
-           <BancorPool
-             web3={this.props.web3}
-             accounts={this.props.accounts}
-             smartFundAddress={this.props.smartFundAddress}
-             Show={this.state.Show}
-             pending={this.props.pending}
-             modalClose={this.modalClose}
-             version={this.props.version}
-           />
-        </Tab>
         <Tab eventKey="uniswap" title="Uniswap">
         <br/>
            <UniswapPool
-             version={this.props.version}
-             web3={this.props.web3}
-             accounts={this.props.accounts}
-             smartFundAddress={this.props.smartFundAddress}
-             Show={this.state.Show}
-             pending={this.props.pending}
-             modalClose={this.modalClose}
-           />
-        </Tab>
-        <Tab eventKey="balancer" title="Balancer">
-        <br/>
-           <BalancerPool
              version={this.props.version}
              web3={this.props.web3}
              accounts={this.props.accounts}
