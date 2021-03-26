@@ -11,9 +11,7 @@ import {
   ERC20ABI,
   APIEnpoint,
   ExchangePortalAddressV7,
-  ExchangePortalABIV6,
-  OneInchProto,
-  OneInchABI
+  ExchangePortalABIV6
 } from '../../config.js'
 
 import {
@@ -88,7 +86,7 @@ class TradeModalV3 extends Component {
     if(NeworkID === 56){
       // get tokens from api
       try{
-        let data = await axios.get(OneInchApi + 'v3.0/56/tokens')
+        let data = await axios.get(OneInchApi + 'tokens')
         const tokens = []
         const symbols = []
 
@@ -274,20 +272,22 @@ class TradeModalV3 extends Component {
       // get merkle tree data
       const { proof, positions } = getMerkleTreeData(this.state.sendTo)
 
-      // get additional data dependse of version
-      const additionalData = await this.getTradeBytesParamsByVersion(
-        this.state.exchangePortalVersion
-      )
-
-      // get exchnage type 1inch proto or 1inch eth
-      const exchangeType = this.state.exchangePortalVersion > 4 ? 3 : 2
-
+      // get additional data from 1 inch api
+      let additionalData
+      try{
+        const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.state.exchangePortalAddress}&slippage=1&disableEstimate=true`
+        const response = await axios.get(OneInchApi + route)
+        additionalData = response.data.tx.data
+      }catch(e){
+        alert("Can not prepare data from 1 inch api")
+        console.log("1inch error ", e)
+      }
       // trade
       smartFund.methods.trade(
           this.state.sendFrom,
           amountInWei,
           this.state.sendTo,
-          exchangeType,
+          0,
           proof,
           positions,
           additionalData,
@@ -306,40 +306,6 @@ class TradeModalV3 extends Component {
       this.setState({ ERRORText:'Can not verify transaction data, please try again in a minute' })
       console.log("error: ",e)
     }
-  }
-
-  // get additional trade params
-  // dependse of exchange portal version
-  getTradeBytesParamsByVersion = async (version) => {
-    let additionalData
-    const amountInWei = toWeiByDecimalsInput(this.state.decimalsFrom, this.state.AmountSend)
-
-    // get calldata from api
-    if(version > 4){
-      const route = `v3.0/56/swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.state.exchangePortalAddress}&slippage=1&disableEstimate=true`
-
-      const response = await axios.get(OneInchApi + route)
-      // todo get data from api
-      additionalData = response.data.tx.data
-    }
-    // get additional data for onchain trade
-    else{
-      const oneInchContract = new this.props.web3.eth.Contract(OneInchABI, OneInchProto)
-      // get 1 inch additional data
-      const { distribution } = await oneInchContract.methods.getExpectedReturn(
-        this.state.sendFrom,
-        this.state.sendTo,
-        amountInWei,
-        10,
-        0
-      ).call()
-
-      additionalData = this.props.web3.eth.abi.encodeParameters(
-        ['uint256', 'uint256[]'],
-        [10, distribution])
-     }
-
-     return additionalData
   }
 
 
@@ -386,31 +352,24 @@ class TradeModalV3 extends Component {
 
   gitRateByNetworkId = async (from, to, amount, decimalsFrom, decimalsTo) => {
     // get value from 1 inch proto
-    if(NeworkID === 1){
+    if(NeworkID === 56){
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
-      let returnAmount
-
-      // get data from api
-      if(this.state.exchangePortalVersion > 4){
-        returnAmount = await this.getRateFrom1inchApi(from, to, src)
-      }
-      // get data from blockchain
-      else {
-        returnAmount = await this.getRateFrom1inchOnchain (from, to, src)
-      }
-
-      return returnAmount
+      return await this.getRateFrom1inchApi(from, to, src)
     }
     // from test net get value from Bancor via old portal v
     else{
       const portal = new this.props.web3.eth.Contract(ExchangePortalABIV6, ExchangePortalAddressV7)
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
 
-      return await portal.methods.getValueViaOneInch(
+      const data = await portal.methods.getValueViaOneInch(
         from,
         to,
         src,
       ).call()
+
+      console.log("Data ", data)
+
+      return data
     }
   }
 
@@ -419,20 +378,6 @@ class TradeModalV3 extends Component {
     if(amount > 0 && from !== to){
       return await this.gitRateByNetworkId(from, to, amount, decimalsFrom, decimalsTo)
     }
-  }
-
-  // get rate from contracts
-  getRateFrom1inchOnchain = async (from, to, srcBN) => {
-    const oneInchContract = new this.props.web3.eth.Contract(OneInchABI, OneInchProto)
-    const { returnAmount } = await oneInchContract.methods.getExpectedReturn(
-      from,
-      to,
-      srcBN,
-      10,
-      0
-    ).call()
-
-    return returnAmount
   }
 
   // get rate from api
@@ -493,14 +438,6 @@ class TradeModalV3 extends Component {
   getTokenAddressBySymbol = (symbol) => {
     const From = this.state.tokens.filter(item => item.symbol === symbol)
     return String(From[0].address).toLowerCase()
-  }
-
-  // provide to fund latest version of trade portal
-  updateTradePortal(){
-    const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
-    smartFund.methods.setNewExchangePortal("0xD3B6933A448fF602711390f96E15c0B9cab5fF11")
-    .send({ from:this.props.accounts[0] })
-    this.closeModal()
   }
 
   // reset states after close modal
@@ -643,25 +580,6 @@ class TradeModalV3 extends Component {
           )
           :
           (<p>Load data...</p>)
-          }
-
-          {
-            this.props.version >= 7 && this.state.exchangePortalVersion < 5
-            ?
-            (
-              <Alert variant="warning">
-              <small>Your trade portal version is outdated, we recommend updating to trade with the best options</small>
-              &nbsp;
-              <Button
-              variant="outline-dark"
-              size="sm"
-              onClick={() => this.updateTradePortal()}
-              >
-              Update
-              </Button>
-              </Alert>
-            )
-            : null
           }
           </Modal.Body>
         </Modal>

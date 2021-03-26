@@ -26,8 +26,6 @@ import ViewUser from './components/ViewUser'
 import SmartFundsListWithoutWeb3 from './components/web3off/SmartFundsListWithoutWeb3'
 import ViewFundWithoutWeb3 from './components/web3off/ViewFundWithoutWeb3'
 
-import Stake from './components/stake/Stake'
-
 import { Button } from "@material-ui/core";
 import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles"
 // import lightblue from "@material-ui/core/colors/lightBlue"
@@ -134,8 +132,8 @@ class App extends Component {
   checkWeb3OffRedirect = () => {
     // redirect to web3off version if client has no web3
     if(this.state.timeOut && !this.state.web3){
-    // if current location web3off, stake, how-to-start no need redirect to web3 off
-    const redirectOff = ['web3off', 'stake', 'how-to-start', 'user-txs', 'fund-txs', 'user']
+    // if current location web3off, how-to-start no need redirect to web3 off
+    const redirectOff = ['web3off', 'how-to-start', 'user-txs', 'fund-txs', 'user']
     const isIncludes = redirectOff.some((el) => String(window.location.href).includes(el))
 
     if(!isIncludes){
@@ -205,7 +203,6 @@ class App extends Component {
          <Route path="/fund-txs/:address" render={(props) => <ViewFundTx {...props} />} />
          <Route path="/user/:address" render={(props) => <ViewUser {...props} />} />
          <Route path="/how-to-start" render={(props) => <HowToStart {...props} />} />
-         <Route path="/stake" render={(props) => <Stake {...props} />} />
       </Switch>
       </Container>
       <br />
