@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SmartFundABI } from '../../config.js'
+import { SmartFundABIV7 } from '../../config.js'
 import { Button, Modal, Form, OverlayTrigger, Tooltip } from "react-bootstrap"
 
 import UserInfo from '../templates/UserInfo'
@@ -23,7 +23,7 @@ class WhiteList extends Component {
   componentDidMount = async () => {
     this._isMounted = true
 
-    const contract = new this.props.web3.eth.Contract(SmartFundABI, this.props.smartFundAddress)
+    const contract = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
     const status = await contract.methods.onlyWhitelist().call()
 
     if(this._isMounted){

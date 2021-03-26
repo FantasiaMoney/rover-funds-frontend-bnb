@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { SmartFundABI } from '../../config.js'
+import { SmartFundABIV7 } from '../../config.js'
 import { Button, Modal, ListGroup } from "react-bootstrap"
 import { fromWei } from 'web3-utils';
 
@@ -21,7 +21,7 @@ class UserHoldings extends Component {
 
   componentDidUpdate = async() => {
    if(this.state.Show && this.props.address && !this.state.isLoad){
-    const fund = new this.props.web3.eth.Contract(SmartFundABI, this.props.address)
+    const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
     const _calculateAddressValue = await fund.methods.calculateAddressValue(this.props.accounts[0]).call()
     const _calculateAddressProfit = await fund.methods.calculateAddressProfit(this.props.accounts[0]).call()
     const _fundValue = await fund.methods.calculateFundValue().call()
@@ -29,7 +29,7 @@ class UserHoldings extends Component {
     // Percent of fund fundValue
     const percent = fromWei(_fundValue.toString()) / 100
     const _percentOfFundValue = fromWei(_calculateAddressValue.toString()) / percent
-    
+
     this.setState(
       {
         isLoad: true,

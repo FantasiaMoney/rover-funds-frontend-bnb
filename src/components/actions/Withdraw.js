@@ -1,11 +1,10 @@
 // For fully-onchain based funds
 
 import React, { Component } from 'react'
-import { SmartFundABI, SmartFundABIV6, APIEnpoint } from '../../config.js'
+import { SmartFundABIV7, APIEnpoint } from '../../config.js'
 import { Button, Modal, Form } from "react-bootstrap"
 import axios from 'axios'
 import setPending from '../../utils/setPending'
-import DWOracleWrapper from './DWOracleWrapper'
 
 
 class Withdraw extends Component {
@@ -23,7 +22,7 @@ class Withdraw extends Component {
     try{
       // get corerct ABI for a certain version
       // version 6 support convert assets
-      const contractABI = this.props.version === 6 ? SmartFundABIV6 : SmartFundABI
+      const contractABI = SmartFundABIV7
       const contract = new this.props.web3.eth.Contract(contractABI, address)
 
       const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call()
@@ -106,33 +105,13 @@ class Withdraw extends Component {
              }
            </Form.Group>
            {
-             this.props.version > 7
-             ?
-             (
-               <DWOracleWrapper
-                 accounts={this.props.accounts}
-                 web3={this.props.web3}
-                 address={this.props.address}
-                 action={
-                   <Button
-                   variant="outline-primary"
-                   type="button"
-                   onClick={() => this.withdraw(this.props.address, this.state.Percent)}
-                   >
-                   Withdraw
-                   </Button>}
-                />
-             )
-             :
-             (
-               <Button
-               variant="outline-primary"
-               type="button"
-               onClick={() => this.withdraw(this.props.address, this.state.Percent)}
-               >
-               Withdraw
-               </Button>
-             )
+             <Button
+             variant="outline-primary"
+             type="button"
+             onClick={() => this.withdraw(this.props.address, this.state.Percent)}
+             >
+             Withdraw
+             </Button>
            }
           </Form>
           </Modal.Body>

@@ -1,13 +1,11 @@
 // For fully onchain based funds
 
 import React, { Component } from 'react'
-import { SmartFundABI, SmartFundABIV6, APIEnpoint } from '../../config.js'
+import { SmartFundABIV7, APIEnpoint } from '../../config.js'
 import setPending from '../../utils/setPending'
 import axios from 'axios'
 import { Button, Modal, Form } from "react-bootstrap"
 import { fromWei } from 'web3-utils'
-import DWOracleWrapper from './DWOracleWrapper'
-
 
 
 class WithdrawManager extends Component {
@@ -24,7 +22,7 @@ class WithdrawManager extends Component {
 
   componentDidMount = async () => {
     this._isMounted = true
-    const contract = new this.props.web3.eth.Contract(SmartFundABI, this.props.smartFundAddress)
+    const contract = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
     let managerCut
 
     try{
@@ -47,7 +45,7 @@ class WithdrawManager extends Component {
     try{
       // get correct ABI for a certain version
       // Only v6 can try convert assets
-      const contractABI = this.props.version === 6 ? SmartFundABIV6 : SmartFundABI
+      const contractABI = SmartFundABIV7
       const contract = new this.props.web3.eth.Contract(contractABI, this.props.smartFundAddress)
       const block = await this.props.web3.eth.getBlockNumber()
 
@@ -135,33 +133,13 @@ class WithdrawManager extends Component {
                }
                </Form.Group>
                {
-                 this.props.version > 7
-                 ?
-                 (
-                   <DWOracleWrapper
-                     accounts={this.props.accounts}
-                     web3={this.props.web3}
-                     address={this.props.smartFundAddress}
-                     action={
-                       <Button
-                       variant="outline-primary"
-                       type="button"
-                       onClick={() => this.withdrawManager()}
-                       >
-                       Take cut
-                       </Button>}
-                    />
-                 )
-                 :
-                 (
-                   <Button
-                   variant="outline-primary"
-                   type="button"
-                   onClick={() => this.withdrawManager()}
-                   >
-                   Take cut
-                   </Button>
-                 )
+                 <Button
+                 variant="outline-primary"
+                 type="button"
+                 onClick={() => this.withdrawManager()}
+                 >
+                 Take cut
+                 </Button>
                }
               </Form>
             )

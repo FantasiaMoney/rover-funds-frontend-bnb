@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
-import BuyPool from './BuyPool'
 import BuyV2Pool from './BuyV2Pool'
-import SellPool from './SellPool'
 import SellV2Pool from './SellV2Pool'
 import { Form } from "react-bootstrap"
 import { Typeahead } from 'react-bootstrap-typeahead'
@@ -11,8 +9,8 @@ import axios from 'axios'
 const getComponentList = (poolVersion) => {
   return(
     {
-      Buy: poolVersion === 'version 2' ? BuyV2Pool : BuyPool,
-      Sell: poolVersion === 'version 2' ? SellV2Pool : SellPool
+      Buy: BuyV2Pool,
+      Sell: SellV2Pool
     }
   )
 }

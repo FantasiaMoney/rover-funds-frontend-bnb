@@ -3,8 +3,6 @@
 import React, { Component } from 'react'
 
 import {
-  SmartFundABI,
-  SmartFundABIV4,
   SmartFundABIV7,
   ERC20ABI,
   APIEnpoint
@@ -14,7 +12,6 @@ import { Button, Modal, Form, Alert } from "react-bootstrap"
 import setPending from '../../utils/setPending'
 import { toWeiByDecimalsInput } from '../../utils/weiByDecimals'
 import axios from 'axios'
-import DWOracleWrapper from './DWOracleWrapper'
 
 
 class Deposit extends Component {
@@ -45,7 +42,7 @@ class Deposit extends Component {
 
   depositETH = async (address, _value) => {
     try{
-      const contract = new this.props.web3.eth.Contract(SmartFundABI, address)
+      const contract = new this.props.web3.eth.Contract(SmartFundABIV7, address)
       const amount = this.props.web3.utils.toWei(_value, 'ether')
       const userWalletBalance = await this.props.web3.eth.getBalance(this.props.accounts[0])
 
@@ -76,21 +73,8 @@ class Deposit extends Component {
 
   depositERC20 = async (address, _value) => {
     try{
-      let contract
-      let ercAssetAddress
-
-      console.log("this.props.version",this.props.version)
-
-      // get core asset dependse of version
-      if(this.props.version >= 6){
-        console.log("v7")
-        contract = new this.props.web3.eth.Contract(SmartFundABIV7, address)
-        ercAssetAddress = await contract.methods.coreFundAsset().call()
-      }else{
-        console.log("vOld")
-        contract = new this.props.web3.eth.Contract(SmartFundABIV4, address)
-        ercAssetAddress = await contract.methods.stableCoinAddress().call()
-      }
+      const contract = new this.props.web3.eth.Contract(SmartFundABIV7, address)
+      const ercAssetAddress = await contract.methods.coreFundAsset().call()
 
       const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
       const ercAssetDecimals = await ercAssetContract.methods.decimals().call()
@@ -205,32 +189,13 @@ class Deposit extends Component {
               </Form.Group>
 
               {
-                this.props.version > 7
-                ?
-                (
-                  <DWOracleWrapper
-                    accounts={this.props.accounts}
-                    web3={this.props.web3}
-                    address={this.props.address}
-                    action={
-                      <Button
-                      variant="outline-primary"
-                      type="button"
-                      onClick={() => this.validation(this.props.address, this.state.DepositValue)}>
-                       Deposit
-                      </Button>}
-                   />
-                )
-                :
-                (
-                  <Button
-                    variant="outline-primary"
-                    type="button"
-                    onClick={() => this.validation(this.props.address, this.state.DepositValue)}
-                  >
-                  Deposit
-                  </Button>
-                )
+                <Button
+                  variant="outline-primary"
+                  type="button"
+                  onClick={() => this.validation(this.props.address, this.state.DepositValue)}
+                >
+                Deposit
+                </Button>
               }
               </Form>
               </div>
