@@ -361,15 +361,11 @@ class TradeModalV3 extends Component {
       const portal = new this.props.web3.eth.Contract(ExchangePortalABIV6, ExchangePortalAddressV7)
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
 
-      const data = await portal.methods.getValueViaOneInch(
+      return await portal.methods.getValueViaOneInch(
         from,
         to,
         src,
       ).call()
-
-      console.log("Data ", data)
-
-      return data
     }
   }
 
