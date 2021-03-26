@@ -3,6 +3,7 @@
 import React, { Component } from 'react'
 
 import {
+  SmartFundABI,
   SmartFundABIV7,
   ERC20ABI,
   APIEnpoint
@@ -42,7 +43,7 @@ class Deposit extends Component {
 
   depositETH = async (address, _value) => {
     try{
-      const contract = new this.props.web3.eth.Contract(SmartFundABIV7, address)
+      const contract = new this.props.web3.eth.Contract(SmartFundABI, address)
       const amount = this.props.web3.utils.toWei(_value, 'ether')
       const userWalletBalance = await this.props.web3.eth.getBalance(this.props.accounts[0])
 
@@ -53,6 +54,8 @@ class Deposit extends Component {
 
         this.modalClose()
         let block = await this.props.web3.eth.getBlockNumber()
+
+        console.log("amount", amount)
 
         contract.methods.deposit().send({ from: this.props.accounts[0], value:amount})
         .on('transactionHash', (hash) => {
