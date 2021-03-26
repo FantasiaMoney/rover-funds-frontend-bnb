@@ -9,7 +9,6 @@ import { EtherscanLink, APIEnpoint, NeworkID }  from '../config.js'
 import io from "socket.io-client"
 import _ from 'lodash'
 
-import PoolModal from './actions/Pool/PoolModal'
 import TradeModalV3 from './actions/TradeModalV3'
 import WithdrawManager from './actions/WithdrawManager'
 import WhiteList from './actions/WhiteList'
@@ -290,7 +289,7 @@ class ViewFund extends Component {
             }
 
             {
-              NeworkID === 1 && !_.isEmpty(this.state.balance)
+              NeworkID === 56 && !_.isEmpty(this.state.balance)
               ?
               (
                 <AssetsAlocationChart AssetsData={this.state.balance} version={this.state.version}/>
@@ -384,12 +383,12 @@ class ViewFund extends Component {
         <br />
         <div align="center">
         {
-          NeworkID === 1 && !_.isEmpty(this.state.balance)
+          NeworkID === 56 && !_.isEmpty(this.state.balance)
           ?
           (
             <ViewPageCharts address={this.state.smartFundAddress} Data={this.state.balance}/>
           )
-          : null 
+          : null
         }
         </div>
         <br />
@@ -414,26 +413,6 @@ class ViewFund extends Component {
                </li>
              }
 
-             {
-               this.state.version >= 3 && this.state.fundSizeType === 'full'
-               ?
-               (
-                 <li>
-                 <PoolModal
-                 web3={this.props.web3}
-                 accounts={this.props.accounts}
-                 smartFundAddress={this.state.smartFundAddress}
-                 pending={this.pending}
-                 version={this.state.version}/>
-                 </li>
-               )
-               :
-               (
-                 <li>
-                 <FakeButton buttonName={"Pool"} info={"This version or type of smart fund does not support this feature"}/>
-                 </li>
-               )
-             }
              <li>
              <WithdrawManager
                web3={this.props.web3}

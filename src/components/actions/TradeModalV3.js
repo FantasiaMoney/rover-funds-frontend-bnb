@@ -7,7 +7,6 @@ import React, { Component } from 'react'
 import {
   SmartFundABIV7,
   OneInchApi,
-  OneInchApiTWO,
   NeworkID,
   ERC20ABI,
   APIEnpoint,
@@ -34,8 +33,8 @@ import checkTokensLimit from '../../utils/checkTokensLimit'
 import Pending from '../templates/Spiners/Pending'
 import BigNumber from 'bignumber.js'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import { ropstenTokens, ropstenSymbols } from '../../storage/RopstenTokens'
-import { rinkebyTokens, rinkebySymbols } from '../../storage/RinkebyTokens'
+import { testnetTokens, testnetSymbols } from '../../storage/testnetTokens'
+
 
 class TradeModalV3 extends Component {
   constructor(props, context) {
@@ -86,10 +85,10 @@ class TradeModalV3 extends Component {
 
   // get tokens addresses and symbols from paraswap api
   initData = async () => {
-    if(NeworkID === 1){
+    if(NeworkID === 56){
       // get tokens from api
       try{
-        let data = await axios.get(OneInchApi + 'tokens')
+        let data = await axios.get(OneInchApi + 'v3.0/56/tokens')
         const tokens = []
         const symbols = []
 
@@ -109,16 +108,10 @@ class TradeModalV3 extends Component {
         console.log(e)
       }
     }
-    else if (NeworkID === 3){
-      // just provide for test few Ropsten tokens from storage
-      const tokens = ropstenTokens
-      const symbols = ropstenSymbols
-      this.setState({ tokens, symbols })
-    }
-    else if (NeworkID === 4){
-      // just provide for test few Ropsten tokens from storage
-      const tokens = rinkebyTokens
-      const symbols = rinkebySymbols
+    else if (NeworkID === 97){
+      // just provide for test few testnet tokens from storage
+      const tokens = testnetTokens
+      const symbols = testnetSymbols
       this.setState({ tokens, symbols })
     }
     else{
@@ -323,9 +316,9 @@ class TradeModalV3 extends Component {
 
     // get calldata from api
     if(version > 4){
-      const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.state.exchangePortalAddress}&slippage=1&disableEstimate=true`
+      const route = `v3.0/56/swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.state.exchangePortalAddress}&slippage=1&disableEstimate=true`
 
-      const response = await axios.get(OneInchApiTWO + route)
+      const response = await axios.get(OneInchApi + route)
       // todo get data from api
       additionalData = response.data.tx.data
     }
@@ -445,7 +438,7 @@ class TradeModalV3 extends Component {
   // get rate from api
   getRateFrom1inchApi = async (from, to, srcBN) => {
     const route = `quote?fromTokenAddress=${from}&toTokenAddress=${to}&amount=${srcBN}`
-    const response = await axios.get(OneInchApiTWO + route)
+    const response = await axios.get(OneInchApi + route)
     return response.data.toTokenAmount
   }
 

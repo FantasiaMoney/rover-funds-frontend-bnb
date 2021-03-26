@@ -3,9 +3,7 @@ const isLocal = true
 
 // maximum available for trade tokens in smart fund
 export const MAX_TOKENS = 3
-
-export const OneInchApi = 'https://api.1inch.exchange/v1.1/'
-export const OneInchApiTWO = 'https://api.1inch.exchange/v2.0/'
+export const OneInchApi = 'https://api.1inch.exchange/swagger/binance/'
 
 // // TEST NET BSC
 export const SmartFundRegistryADDRESS = '0xdb622775C42B83bfE11e218E0F8b8ec3435ACdE9'
@@ -798,7 +796,7 @@ export const ERC20Bytes32ABI = [
 	}
 ]
 
-// ETH based 
+// ETH based
 export const SmartFundABI = [
 	{
 		"constant": true,
