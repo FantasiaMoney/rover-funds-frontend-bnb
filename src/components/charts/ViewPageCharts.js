@@ -47,7 +47,8 @@ class ViewPageCharts extends React.Component {
     datasets: []
     },
     isDataLoad: false,
-    reciveddata: null
+    reciveddata: null,
+    error:false
   }
   }
 
@@ -75,9 +76,11 @@ class ViewPageCharts extends React.Component {
         this.parseData(data)
       }else{
         console.log("Can not load charts data ", data.data.error)
+        this.setState({ error:true })
       }
     }catch(e){
       console.log("Can not load charts data ", e)
+      this.setState({ error:true })
     }
   }
 
@@ -302,54 +305,62 @@ class ViewPageCharts extends React.Component {
 
   render(){
   return(
-    <div>
+    <>
     {
-      this.state.isDataLoad
+      !this.state.error
       ?
       (
-      <React.Fragment>
-      {
-        this.state.DWdata.labels.length > 0
-        ?
-        (
+        <>
+        {
+          this.state.isDataLoad
+          ?
+          (
           <React.Fragment>
-          <div className="fund-page-charts">
-            <div>
-              <LineChart data={this.state.totalGainsData} />
-              <LineChart data={this.state.unrealizedGainsData} />
-              <LineChart data={this.state.realizedGainsData} />
-              <LineChart data={this.state.ROIDAILYdata} />
-              <LineChart data={this.state.DWdata} />
-              <LineChart data={this.state.ROIdata}/>
-              <LineChart data={this.state.PROFITdata} />
-              <LineChart data={this.state.DAILYVALUEdata} />
-            </div>
-          </div>
+          {
+            this.state.DWdata.labels.length > 0
+            ?
+            (
+              <React.Fragment>
+              <div className="fund-page-charts">
+                <div>
+                  <LineChart data={this.state.totalGainsData} />
+                  <LineChart data={this.state.unrealizedGainsData} />
+                  <LineChart data={this.state.realizedGainsData} />
+                  <LineChart data={this.state.ROIDAILYdata} />
+                  <LineChart data={this.state.DWdata} />
+                  <LineChart data={this.state.ROIdata}/>
+                  <LineChart data={this.state.PROFITdata} />
+                  <LineChart data={this.state.DAILYVALUEdata} />
+                </div>
+              </div>
+              </React.Fragment>
+            )
+            :
+            (
+              <Row>
+              <Col>
+              <strong>"No activity"</strong>
+              </Col>
+              </Row>
+            )
+          }
           </React.Fragment>
-        )
-        :
-        (
-          <Row>
-          <Col>
-          <strong>"No activity"</strong>
-          </Col>
-          </Row>
-        )
-      }
-      </React.Fragment>
+          )
+          :
+          (
+            <Row>
+            <Col>
+            <Loading />
+            <small>Loading charts data</small>
+            </Col>
+            </Row>
+          )
+        }
+        </>
       )
-      :
-      (
-        <Row>
-        <Col>
-        <Loading />
-        <small>Loading charts data</small>
-        </Col>
-        </Row>
-      )
+      : <small>Can't load charts</small>
     }
-
-    </div>
+    </>
   )
 }
 
