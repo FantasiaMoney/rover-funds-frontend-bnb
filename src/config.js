@@ -8,8 +8,8 @@ export const OneInchApi = 'https://api.1inch.exchange/v3.0/56/'
 
 // BSC
 export const NeworkID = 56
-export const SmartFundRegistryADDRESS = ''
-export const ExchangePortalAddressV7 = ''
+export const SmartFundRegistryADDRESS = '0x3e3C06d526b38F67D7a897Bba20906f36D2793A3'
+export const ExchangePortalAddressV7 = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
 export const EtherscanLink = 'https://bscscan.com/'
 export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'

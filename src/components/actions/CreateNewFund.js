@@ -25,8 +25,7 @@ class CreateNewFund extends Component {
       Percent: 20,  // NOTE: this number should be mul by 100 !!!
       FundAsset: 'BNB',
       FundName: '',
-      TradeVerification: false,
-      FundType:'Full'
+      TradeVerification: false
     }
   }
 
@@ -53,28 +52,14 @@ class CreateNewFund extends Component {
         let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
         txCount = txCount.data.result
 
-        // create full fund
-        if(this.state.FundType === 'Full'){
-          contract.methods.createSmartFund(name, percent, fundType[_fundType], verifiacton)
-          .send({ from: this.props.accounts[0] })
-          .on('transactionHash', (hash) => {
-          // pending status for DB
-          setPending(null, 1, this.props.accounts[0], block, hash, "SmartFundCreated")
-          this.props.pending(true, txCount+1)
-          })
-        }
-        // create light fund
-        else if(this.state.FundType === 'Light'){
-          contract.methods.createSmartFundLight(name, percent, fundType[_fundType], verifiacton)
-          .send({ from: this.props.accounts[0] })
-          .on('transactionHash', (hash) => {
-          // pending status for DB
-          setPending(null, 1, this.props.accounts[0], block, hash, "SmartFundCreated")
-          this.props.pending(true, txCount+1)
-          })
-        }else{
-          alert("Unknown fund type")
-        }
+        contract.methods.createSmartFund(name, percent, fundType[_fundType], verifiacton)
+        .send({ from: this.props.accounts[0] })
+        .on('transactionHash', (hash) => {
+        // pending status for DB
+        setPending(null, 1, this.props.accounts[0], block, hash, "SmartFundCreated")
+        this.props.pending(true, txCount+1)
+        })
+
         // close modal
         this.modalClose()
       }
@@ -105,7 +90,6 @@ class CreateNewFund extends Component {
       Percent: 20,
       FundAsset: 'BNB',
       FundName: '',
-      FundType:'Full',
       TradeVerification: true
     })
   }
@@ -176,16 +160,6 @@ class CreateNewFund extends Component {
           <Form.Control as="select" name="FundAsset" onChange={e => this.change(e)}>
             <option>BNB</option>
             <option>USD</option>
-          </Form.Control>
-          </Form.Group>
-
-          <hr/>
-
-          <Form.Group controlId="FundType">
-          <Form.Label>Fund type <UserInfo  info="Full funds - supports trade, pools and another defi protocols, light - only trade"/></Form.Label>
-          <Form.Control as="select" name="FundType" onChange={e => this.change(e)}>
-            <option>Full</option>
-            <option>Light</option>
           </Form.Control>
           </Form.Group>
 
