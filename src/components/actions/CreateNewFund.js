@@ -14,7 +14,7 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import axios from 'axios'
 
-const fundType = { "ETH":0, "USD":1, "COT":2 }
+const fundType = { "BNB":0, "USD":1}
 
 class CreateNewFund extends Component {
   constructor(props, context) {
@@ -23,9 +23,9 @@ class CreateNewFund extends Component {
     this.state = {
       Show: false,
       Percent: 20,  // NOTE: this number should be mul by 100 !!!
-      FundAsset: 'ETH',
+      FundAsset: 'BNB',
       FundName: '',
-      TradeVerification: true,
+      TradeVerification: false,
       FundType:'Full'
     }
   }
@@ -103,7 +103,7 @@ class CreateNewFund extends Component {
     this.setState({
       Show: false,
       Percent: 20,
-      FundAsset: 'ETH',
+      FundAsset: 'BNB',
       FundName: '',
       FundType:'Full',
       TradeVerification: true
@@ -146,7 +146,7 @@ class CreateNewFund extends Component {
           <hr/>
 
           <Form.Group>
-          <Form.Label>Performance Fee % <UserInfo  info="This is the % the fund manager earns for the profits earned, relative to main fund asset (ETH, USD or COT)."/></Form.Label>
+          <Form.Label>Performance Fee % <UserInfo  info="This is the % the fund manager earns for the profits earned, relative to main fund asset (BNB or USD)."/></Form.Label>
           <TextField
             id="outlined-name"
             label="Performance Fee"
@@ -174,9 +174,8 @@ class CreateNewFund extends Component {
           <Form.Group controlId="exampleForm.ControlSelect1">
           <Form.Label>Main fund asset % <UserInfo  info="With the help of this asset, investors will invest, calculate fund value ect"/></Form.Label>
           <Form.Control as="select" name="FundAsset" onChange={e => this.change(e)}>
-            <option>ETH</option>
+            <option>BNB</option>
             <option>USD</option>
-            <option>COT</option>
           </Form.Control>
           </Form.Group>
 
