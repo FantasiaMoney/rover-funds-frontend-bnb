@@ -27,23 +27,44 @@ class MainPageCharts extends React.Component {
     datasets: []
     },
     isDataLoad: false,
-    reciveddata: null
-  }
+    reciveddata: null,
+    error:false
+    }
   }
 
   _isMounted = false
 
   componentDidMount = async () => {
     this._isMounted = true
-    this.initData()
+    this.updateChartsData()
   }
 
   componentWillUnmount(){
     this._isMounted = false
   }
 
-  initData(){
-    axios.get(BloxyChartsLink + this.props.address).then((data) => {
+  componentDidUpdate = async (nextProps) => {
+  if(nextProps.Data !== this.props.Data){
+      this.updateChartsData()
+    }
+  }
+
+  updateChartsData = async () => {
+    try{
+      const data = await axios.get(BloxyChartsLink + this.props.address)
+      if(!data.data.hasOwnProperty('error')){
+        this.parseData(data)
+      }else{
+        console.log("Can not load charts data ", data.data.error)
+        this.setState({ error:true })
+      }
+    }catch(e){
+      console.log("Can not load charts data ", e)
+      this.setState({ error:true })
+    }
+  }
+
+  parseData(data){
     data = data.data.map((v) => v)
     // remove wrong day
     const wrongDay = data.length > 1 ? data[data.length - 2].date : null
@@ -172,81 +193,89 @@ class MainPageCharts extends React.Component {
         isDataLoad: true
       })
     }
-   })
   }
 
   render(){
   return(
-    <div>
-    {
-      this.state.isDataLoad
-      ?
-      (
-      <React.Fragment>
-      {
-        this.state.DWdata.labels.length > 0
-        ?
-        (
-          <div className="fund-page-charts">
-          <div>
-          <LineChart data={this.state.DWdata} />
+    <>
+     {
+       !this.state.error
+       ?
+       (
+         <div>
+         {
+           this.state.isDataLoad
+           ?
+           (
+           <React.Fragment>
+           {
+             this.state.DWdata.labels.length > 0
+             ?
+             (
+               <div className="fund-page-charts">
+               <div>
+               <LineChart data={this.state.DWdata} />
 
-          <LineChart data={this.state.ROIdata}/>
+               <LineChart data={this.state.ROIdata}/>
 
-          <LineChart data={this.state.PROFITdata} />
+               <LineChart data={this.state.PROFITdata} />
 
-          <LineChart data={this.state.DAILYVALUEdata} />
-          </div>
-          </div>
-        )
-        :
-        (
-          <Row>
-          <Col>
-          <strong>"No activity"</strong>
-          </Col>
-          <Col>
-          <strong>"No activity"</strong>
-          </Col>
-          <Col>
-          <strong>"No activity"</strong>
-          </Col>
-          <Col>
-          <strong>"No activity"</strong>
-          </Col>
-          </Row>
-        )
-      }
-      </React.Fragment>
-      )
-      :
-      (
-        <Row>
-        <Col>
-        <Loading />
-        <small>Loading Deposit/Withdtaw chart</small>
-        </Col>
-        <Col>
-        <Loading />
-        <small>Loading ROI chart</small>
-        </Col>
-        <Col>
-        <Loading />
-        <small>Loading Profit charts</small>
-        </Col>
-        <Col>
-        <Loading />
-        <small>Loading Daily Value chart</small>
-        </Col>
-        </Row>
-      )
-    }
-
-    </div>
+               <LineChart data={this.state.DAILYVALUEdata} />
+               </div>
+               </div>
+             )
+             :
+             (
+               <Row>
+               <Col>
+               <strong>"No activity"</strong>
+               </Col>
+               <Col>
+               <strong>"No activity"</strong>
+               </Col>
+               <Col>
+               <strong>"No activity"</strong>
+               </Col>
+               <Col>
+               <strong>"No activity"</strong>
+               </Col>
+               </Row>
+             )
+           }
+           </React.Fragment>
+           )
+           :
+           (
+             <Row>
+             <Col>
+             <Loading />
+             <small>Loading Deposit/Withdtaw chart</small>
+             </Col>
+             <Col>
+             <Loading />
+             <small>Loading ROI chart</small>
+             </Col>
+             <Col>
+             <Loading />
+             <small>Loading Profit charts</small>
+             </Col>
+             <Col>
+             <Loading />
+             <small>Loading Daily Value chart</small>
+             </Col>
+             </Row>
+           )
+         }
+         </div>
+       )
+       :
+       (
+         <small>Can not load charts</small>
+       )
+     }
+    </>
   )
 }
-
-
 }
 
 export default MainPageCharts

@@ -124,7 +124,7 @@ class ViewFundWithoutWeb3 extends Component {
         <div align="center"><strong>Investor actions</strong></div>
           <ul>
             <li>{
-              NeworkID === 1 ?
+              NeworkID === 56 ?
               (
                 <ChartsButton address={this.state.smartFundAddress}/>
               ):

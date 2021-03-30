@@ -212,7 +212,7 @@ class SmartFundsListWithoutWeb3 extends Component{
              <Col><ManagerModal address={item.owner}/></Col>
              </Row>
              {
-               NeworkID === 1 ?
+               NeworkID === 56 ?
                (
                  <div align="center">
                  <MainPageCharts address={item.address} />
@@ -230,7 +230,7 @@ class SmartFundsListWithoutWeb3 extends Component{
              <FakeButton buttonName={"Withdraw"} info={"please connect to web3"}/>
              <FakeButton buttonName={"My Funds"} info={"please connect to web3"}/>
              {
-              NeworkID === 1 ?
+              NeworkID === 56 ?
               (
                 <ChartsButton address={item.address}/>
               ):

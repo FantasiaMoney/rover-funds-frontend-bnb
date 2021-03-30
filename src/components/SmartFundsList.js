@@ -303,7 +303,7 @@ class SmartFundsList extends Component{
 
          <div className="justify-content-md-center">
           {
-            NeworkID === 1 ?
+            NeworkID === 56 ?
             (
               <div align="center">
               <MainPageCharts address={item.address} />
@@ -337,7 +337,7 @@ class SmartFundsList extends Component{
           />
           <UserHoldings web3={this.props.web3} address={item.address} accounts={this.props.accounts}/>
           {
-            NeworkID === 1 ?
+            NeworkID === 56 ?
             (
               <ChartsButton address={item.address}/>
             ):
