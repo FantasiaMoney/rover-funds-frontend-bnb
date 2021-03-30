@@ -40,8 +40,8 @@ class TradeModalV3 extends Component {
 
     this.state = {
       ShowModal: false,
-      Send: 'ETH',
-      Recive:'DAI',
+      Send: 'BNB',
+      Recive:'vDAI',
       AmountSend:0,
       AmountRecive:0,
       slippageFrom:0,

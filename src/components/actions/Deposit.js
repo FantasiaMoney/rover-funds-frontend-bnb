@@ -32,7 +32,7 @@ class Deposit extends Component {
     this.setState({ ValueError:true })
     }
     else{
-      if(this.props.mainAsset === 'ETH'){
+      if(this.props.mainAsset === 'BNB'){
         this.depositETH(address, _value)
       }else{
         this.depositERC20(address, _value)
