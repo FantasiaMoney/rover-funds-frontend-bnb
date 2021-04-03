@@ -183,10 +183,7 @@ class App extends Component {
         NeworkID !== this.state.network && this.state.isLoadNetID && this.state.web3 ?
         (
           <Alert variant="danger">
-          Wrong network ID, please make sure You use &nbsp;
-          {
-            NeworkID === 1 ? ("Mainnet"): (<>{`Test net with id ${NeworkID}`}</>)
-          }
+          Wrong network ID
           </Alert>
         ):
         (

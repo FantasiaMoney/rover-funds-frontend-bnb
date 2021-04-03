@@ -1,5 +1,5 @@
 // switch this to false in production
-const isLocal = true
+const isLocal = false
 
 // maximum available for trade tokens in smart fund
 export const MAX_TOKENS = 20
@@ -11,7 +11,7 @@ export const NeworkID = 56
 export const SmartFundRegistryADDRESS = '0x3e3C06d526b38F67D7a897Bba20906f36D2793A3'
 export const ExchangePortalAddressV7 = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
 export const EtherscanLink = 'https://bscscan.com/'
-export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
+export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9000/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'
 
 
