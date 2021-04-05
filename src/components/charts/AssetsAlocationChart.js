@@ -117,7 +117,7 @@ class AssetsAlocationChart extends React.Component{
         ?
         (
           <div style={{ width: 320, height: 220}}>
-            <Badge>Asset allocation in ETH value</Badge>
+            <Badge>Asset allocation in BNB value</Badge>
             <Pie data={this.state.data} />
           </div>
         )

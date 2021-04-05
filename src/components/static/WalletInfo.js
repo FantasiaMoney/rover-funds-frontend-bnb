@@ -30,7 +30,7 @@ class WalletInfo extends Component {
             this.state.ETHBalance > 0
             ?
             (
-              <small> <strong>{this.state.ETHBalance} : ETH</strong></small>
+              <small> <strong>{this.state.ETHBalance} : BNB</strong></small>
             ): null
           }
           &nbsp;
