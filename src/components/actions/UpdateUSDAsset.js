@@ -4,12 +4,10 @@ import { Button, Modal, Form, Alert } from "react-bootstrap"
 import { isAddress, fromWei } from 'web3-utils'
 
 // permitted stable coins
-const symblols = ["DAI", "USDT", "USDC", 'USDB']
+const symblols = ["BDAI", "BUSD"]
 const assets = {
-  'DAI' : '0x6b175474e89094c44da98b954eedeac495271d0f',
-  'USDT': '0xdac17f958d2ee523a2206206994597c13d831ec7',
-  'USDC': '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48',
-  'USDB': '0x309627af60f0926daa6041b8279484312f2bf060'
+  'BDAI' : '0x1AF3F329e8BE154074D8769D1FFa4eE058B1DBc3',
+  'BUSD': '0xe9e7cea3dedca5984780bafc599bd69add087d56'
 }
 
 
