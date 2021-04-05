@@ -13,7 +13,7 @@ export const NeworkID = 56
 export const SmartFundRegistryADDRESS = '0x3e3C06d526b38F67D7a897Bba20906f36D2793A3'
 export const ExchangePortalAddressV7 = '0x5d1A6508433067191002c0655D9f2Dcf62768224'
 export const EtherscanLink = 'https://bscscan.com/'
-export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9000/'
+export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9005/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'
 
 
