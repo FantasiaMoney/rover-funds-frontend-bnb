@@ -6,10 +6,12 @@ export const MAX_TOKENS = 20
 
 export const OneInchApi = 'https://api.1inch.exchange/v3.0/56/'
 
+export const ExchangePortalDeprecated = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
+
 // BSC
 export const NeworkID = 56
 export const SmartFundRegistryADDRESS = '0x3e3C06d526b38F67D7a897Bba20906f36D2793A3'
-export const ExchangePortalAddressV7 = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
+export const ExchangePortalAddressV7 = '0x5d1A6508433067191002c0655D9f2Dcf62768224'
 export const EtherscanLink = 'https://bscscan.com/'
 export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9000/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'

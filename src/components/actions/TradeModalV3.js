@@ -11,7 +11,8 @@ import {
   ERC20ABI,
   APIEnpoint,
   ExchangePortalAddressV7,
-  ExchangePortalABIV6
+  ExchangePortalABIV6,
+  ExchangePortalDeprecated
 } from '../../config.js'
 
 import {
@@ -436,6 +437,14 @@ class TradeModalV3 extends Component {
     return String(From[0].address).toLowerCase()
   }
 
+  // provide to fund latest version of trade portal
+  updateTradePortal(){
+    const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
+    smartFund.methods.setNewExchangePortal(ExchangePortalAddressV7)
+    .send({ from:this.props.accounts[0] })
+    this.closeModal()
+  }
+
   // reset states after close modal
   closeModal = () => this.setState({
     ShowModal: false,
@@ -445,7 +454,8 @@ class TradeModalV3 extends Component {
     AmountRecive:0,
     prepareData:false,
     slippageFrom:0,
-    slippageTo:0
+    slippageTo:0,
+    exchangePortalAddress:''
   })
 
   render() {
@@ -559,13 +569,36 @@ class TradeModalV3 extends Component {
           {/* Display error */}
           {this.ErrorMsg()}
 
-          {/* Trigger tarde */}
-          <br />
-          <Button variant="outline-primary" onClick={() => this.validation()}>Trade</Button>
-          <br />
           {
-            this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
+            String(this.state.exchangePortalAddress).toLowerCase() === String(ExchangePortalDeprecated).toLowerCase()
+            ?
+            (
+              <Alert variant="warning">
+              <strong>Your trade portal version is deprecated, please update</strong>
+              <hr/>
+              <Button
+              variant="outline-dark"
+              size="sm"
+              onClick={() => this.updateTradePortal()}
+              >
+              Update
+              </Button>
+              </Alert>
+            )
+            :
+            (
+              <>
+              {/* Trigger tarde */}
+              <br />
+              <Button variant="outline-primary" onClick={() => this.validation()}>Trade</Button>
+              <br />
+              {
+                this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
+              }
+              </>
+            )
           }
+
 
           {/* Update gas price */}
           <br />

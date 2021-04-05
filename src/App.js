@@ -124,7 +124,7 @@ class App extends Component {
       const smartFunds = await getFundsList()
       this.props.MobXStorage.initSFList(smartFunds)
       // view current registry address
-      console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "_version 20/10/20_(17.33)")
+      console.log("SmartFundRegistryADDRESS: ", SmartFundRegistryADDRESS, "_version 05/04/21")
       this.setState({ isDataLoad: true })
     }
   }
