@@ -313,7 +313,7 @@ class ViewFund extends Component {
          <tr>
            <th>Token</th>
            <th>% from fund</th>
-           <th>Value in ETH</th>
+           <th>Value in BNB</th>
            <th>Balance</th>
          </tr>
        </thead>

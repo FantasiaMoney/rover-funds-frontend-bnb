@@ -99,8 +99,6 @@ class Deposit extends Component {
 
         const gasPrice = await this.props.web3.eth.getGasPrice()
 
-        console.log("gasPrice", gasPrice)
-
         const approveTx = {
           "from": this.props.accounts[0],
           "to": ercAssetAddress,
