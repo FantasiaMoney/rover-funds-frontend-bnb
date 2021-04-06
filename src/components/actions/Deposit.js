@@ -97,12 +97,16 @@ class Deposit extends Component {
           amount
         ).encodeABI({from: this.props.accounts[0]})
 
+        const gasPrice = await this.props.web3.eth.getGasPrice()
+
+        console.log("gasPrice", gasPrice)
+
         const approveTx = {
           "from": this.props.accounts[0],
           "to": ercAssetAddress,
           "value": "0x0",
           "data": approveData,
-          "gasPrice": this.props.web3.eth.utils.toHex(5000000000),
+          "gasPrice": gasPrice,
           "gas": this.props.web3.eth.utils.toHex(85000),
         }
 
@@ -115,11 +119,11 @@ class Deposit extends Component {
           "to": address,
           "value": "0x0",
           "data": depositData,
-          "gasPrice": this.props.web3.eth.utils.toHex(5000000000),
+          "gasPrice": gasPrice,
           "gas": this.props.web3.eth.utils.toHex(285000),
         }
 
-        // Craete Batch request
+        // Create Batch request
         let batch = new this.props.web3.BatchRequest()
         batch.add(this.props.web3.eth.sendTransaction.request(approveTx, () => console.log("Approve")))
         batch.add(this.props.web3.eth.sendTransaction.request(depositTx, (status, hash) => {
