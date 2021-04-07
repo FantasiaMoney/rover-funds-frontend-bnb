@@ -454,8 +454,7 @@ class TradeModalV3 extends Component {
     AmountRecive:0,
     prepareData:false,
     slippageFrom:0,
-    slippageTo:0,
-    exchangePortalAddress:''
+    slippageTo:0
   })
 
   render() {
