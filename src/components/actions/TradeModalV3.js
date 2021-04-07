@@ -42,7 +42,7 @@ class TradeModalV3 extends Component {
     this.state = {
       ShowModal: false,
       Send: 'BNB',
-      Recive:'vDAI',
+      Recive:'BUSD',
       AmountSend:0,
       AmountRecive:0,
       slippageFrom:0,
@@ -448,8 +448,8 @@ class TradeModalV3 extends Component {
   // reset states after close modal
   closeModal = () => this.setState({
     ShowModal: false,
-    Send: 'ETH',
-    Recive:'DAI',
+    Send: 'BNB',
+    Recive:'BUSD',
     AmountSend:0,
     AmountRecive:0,
     prepareData:false,
