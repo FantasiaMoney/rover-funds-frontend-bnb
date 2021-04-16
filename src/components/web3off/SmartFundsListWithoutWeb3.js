@@ -8,7 +8,6 @@ import getFundsList from "../../utils/getFundsList"
 import { fromWei } from 'web3-utils'
 
 import { Card, ListGroup, Row, Col, Badge, Button, ButtonGroup } from "react-bootstrap"
-import { NeworkID } from '../../config'
 import { NavLink } from 'react-router-dom'
 
 // import MainPageCharts from '../charts/MainPageCharts'
@@ -227,19 +226,11 @@ class SmartFundsListWithoutWeb3 extends Component{
              }
              <div>
              <ButtonGroup horizontal="true">
-             <NavLink to={"/web3off/fund/"+ item.address}><Button variant="outline-primary" className="buttonsAdditional">Fund Page</Button></NavLink>
              <FakeButton buttonName={"Deposit"} info={"please connect to web3"}/>
              <FakeButton buttonName={"Withdraw"} info={"please connect to web3"}/>
+             <NavLink to={"/web3off/fund/"+ item.address}><Button variant="outline-primary" className="buttonsAdditional">Fund Page</Button></NavLink>
              <FakeButton buttonName={"My Funds"} info={"please connect to web3"}/>
-             {
-              NeworkID === 56 ?
-              (
-                <EtherscanButton address={item.address}/>
-              ):
-              (
-                <FakeButton buttonName={"Bloxy"} info={"This button is available only in mainnet"}/>
-              )
-             }
+             <EtherscanButton address={item.address}/>
              </ButtonGroup>
              </div>
              </Card.Body>
