@@ -11,12 +11,12 @@ import { Card, ListGroup, Row, Col, Badge, Button, ButtonGroup } from "react-boo
 import { NeworkID } from '../../config'
 import { NavLink } from 'react-router-dom'
 
-import MainPageCharts from '../charts/MainPageCharts'
+// import MainPageCharts from '../charts/MainPageCharts'
 
 import FakeButton from '../templates/FakeButton'
 import FakeMaterializeButton from '../templates/FakeMaterializeButton'
 import Web3Allert from './Web3Allert'
-import ChartsButton from '../actions/ChartsButton'
+import EtherscanButton from '../actions/EtherscanButton'
 import Loading from '../templates/Spiners/Loading'
 import ManagerModal from '../actions/ManagerModal'
 import FundModal from '../actions/FundModal'
@@ -212,6 +212,7 @@ class SmartFundsListWithoutWeb3 extends Component{
              <Col><ManagerModal address={item.owner}/></Col>
              </Row>
              {
+               /*
                NeworkID === 56 ?
                (
                  <div align="center">
@@ -222,6 +223,7 @@ class SmartFundsListWithoutWeb3 extends Component{
                (
                  <strong>Charts available only in mainnet</strong>
                )
+               */
              }
              <div>
              <ButtonGroup horizontal="true">
@@ -232,7 +234,7 @@ class SmartFundsListWithoutWeb3 extends Component{
              {
               NeworkID === 56 ?
               (
-                <ChartsButton address={item.address}/>
+                <EtherscanButton address={item.address}/>
               ):
               (
                 <FakeButton buttonName={"Bloxy"} info={"This button is available only in mainnet"}/>

@@ -7,7 +7,10 @@ import getFundData from "../utils/getFundData"
 
 import { Card, ListGroup, Row, Col, Badge, Button, ButtonGroup } from "react-bootstrap"
 import { NavLink } from 'react-router-dom'
-import { NeworkID, APIEnpoint } from '../config'
+import {
+  // NeworkID,
+  APIEnpoint
+} from '../config'
 
 import io from "socket.io-client"
 
@@ -15,8 +18,8 @@ import UpgradableCard from './UpgradableCard'
 import Withdraw from './actions/Withdraw'
 import Deposit from './actions/Deposit'
 import CreateNewFund from './actions/CreateNewFund'
-import ChartsButton from './actions/ChartsButton'
-import FakeButton from './templates/FakeButton'
+import EtherscanButton from './actions/EtherscanButton'
+// import FakeButton from './templates/FakeButton'
 import UserHoldings from './actions/UserHoldings'
 import ManagerModal from './actions/ManagerModal'
 import FundModal  from './actions/FundModal'
@@ -25,7 +28,7 @@ import Loading from './templates/Spiners/Loading'
 import Pending from './templates/Spiners/Pending'
 import PopupMsg from './templates/PopupMsg'
 
-import MainPageCharts from './charts/MainPageCharts'
+// import MainPageCharts from './charts/MainPageCharts'
 import PagePagination from './navigation/PagePagination'
 import FilterAndSearch from './navigation/FilterAndSearch/FilterAndSearch'
 import FundsNav from './navigation/FundsNav'
@@ -303,6 +306,7 @@ class SmartFundsList extends Component{
 
          <div className="justify-content-md-center">
           {
+            /*
             NeworkID === 56 ?
             (
               <div align="center">
@@ -313,6 +317,7 @@ class SmartFundsList extends Component{
             (
               <strong>Charts available only in mainnet</strong>
             )
+            */
           }
           </div>
           <Row className="justify-content-md-center mb-3">
@@ -336,15 +341,7 @@ class SmartFundsList extends Component{
             mainAsset={item.mainAsset}
           />
           <UserHoldings web3={this.props.web3} address={item.address} accounts={this.props.accounts}/>
-          {
-            NeworkID === 56 ?
-            (
-              <ChartsButton address={item.address}/>
-            ):
-            (
-              <FakeButton buttonName={"Bloxy"} info={"This button is available only in mainnet"}/>
-            )
-          }
+          <EtherscanButton address={item.address}/>
           </ButtonGroup>
           </Col>
          </Row>

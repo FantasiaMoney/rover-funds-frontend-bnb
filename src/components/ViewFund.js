@@ -13,7 +13,7 @@ import TradeModalV3 from './actions/TradeModalV3'
 import WithdrawManager from './actions/WithdrawManager'
 import WhiteList from './actions/WhiteList'
 import FakeButton from './templates/FakeButton'
-import ChartsButton from './actions/ChartsButton'
+import EtherscanButton from './actions/EtherscanButton'
 import Withdraw from './actions/Withdraw'
 import Deposit from './actions/Deposit'
 import UserHoldings from './actions/UserHoldings'
@@ -24,7 +24,7 @@ import UpdateUSDAsset from './actions/UpdateUSDAsset'
 import Loading from './templates/Spiners/Loading'
 import Pending from './templates/Spiners/Pending'
 import PopupMsg from './templates/PopupMsg'
-import ViewPageCharts from './charts/ViewPageCharts'
+// import ViewPageCharts from './charts/ViewPageCharts'
 import InvestorsAlocationChart from './charts/InvestorsAlocationChart'
 import UserInfo from './templates/UserInfo'
 import AssetsAlocationChart from './charts/AssetsAlocationChart'
@@ -244,7 +244,6 @@ class ViewFund extends Component {
         <div className="fund-page-btns">
         <div align="center"><strong>Investor actions</strong></div>
           <ul>
-            <li><ChartsButton address={this.state.smartFundAddress}/></li>
             <li>
             <Deposit
               web3={this.props.web3}
@@ -265,6 +264,7 @@ class ViewFund extends Component {
               mainAsset={this.state.mainAsset}
             />
             </li>
+            <li><EtherscanButton address={this.state.smartFundAddress}/></li>
             <li><UserHoldings web3={this.props.web3} address={this.state.smartFundAddress} accounts={this.props.accounts} pending={this.pending}/></li>
           </ul>
        </div>
@@ -383,12 +383,14 @@ class ViewFund extends Component {
         <br />
         <div align="center">
         {
+          /*
           NeworkID === 56 && !_.isEmpty(this.state.balance)
           ?
           (
             <ViewPageCharts address={this.state.smartFundAddress} Data={this.state.balance}/>
           )
           : null
+          */
         }
         </div>
         <br />
@@ -454,16 +456,6 @@ class ViewFund extends Component {
              <li>
              <FakeButton buttonName={"Exchange"} info={"You can't use this button because You are not owner of this smart fund"}/>
              </li>
-             {
-               this.state.version >= 3
-               ?
-               (
-                 <li>
-                 <FakeButton buttonName={"Pool"} info={"You can't use this button because You are not owner of this smart fund"}/>
-                 </li>
-               )
-               :null
-             }
              <li>
              <FakeButton buttonName={"Take cut"} info={"You can't use this button because You are not owner of this smart fund"}/>
              </li>

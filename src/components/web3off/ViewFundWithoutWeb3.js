@@ -10,8 +10,8 @@ import _ from 'lodash'
 // Components
 import Web3Allert from './Web3Allert'
 import FakeButton from '../templates/FakeButton'
-import ChartsButton from '../actions/ChartsButton'
-import ViewPageCharts from '../charts/ViewPageCharts'
+import EtherscanButton from '../actions/EtherscanButton'
+// import ViewPageCharts from '../charts/ViewPageCharts'
 import InvestorsAlocationChart from '../charts/InvestorsAlocationChart'
 import UserInfo from '../templates/UserInfo'
 import Identicon from 'react-identicons'
@@ -123,17 +123,9 @@ class ViewFundWithoutWeb3 extends Component {
         <div className="fund-page-btns">
         <div align="center"><strong>Investor actions</strong></div>
           <ul>
-            <li>{
-              NeworkID === 56 ?
-              (
-                <ChartsButton address={this.state.smartFundAddress}/>
-              ):
-              (
-                <FakeButton buttonName={"ChartsButton"} info={"This button is available only in mainnet"}/>
-              )
-            }</li>
             <li><FakeButton buttonName={"Deposit"} info={"please connect to web3"}/></li>
             <li><FakeButton buttonName={"Withdraw"} info={"please connect to web3"}/></li>
+            <li><EtherscanButton address={this.state.smartFundAddress}/></li>
             <li><FakeButton buttonName={"My profile"} info={"please connect to web3"}/></li>
           </ul>
        </div>
@@ -245,7 +237,11 @@ class ViewFundWithoutWeb3 extends Component {
        </div>
        <br />
        <div align="center">
-       <ViewPageCharts address={this.state.smartFundAddress}/>
+       {
+         /*
+         <ViewPageCharts address={this.state.smartFundAddress}/>
+         */
+       }
        </div>
        <br />
 
