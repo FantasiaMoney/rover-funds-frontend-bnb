@@ -53,18 +53,10 @@ class WithdrawManager extends Component {
       let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
       txCount = txCount.data.result
 
-      // check correct call for a certain version
-      if(this.props.version === 6){
-        contract.methods.fundManagerWithdraw(this.state.isConvert).send({ from: this.props.accounts[0]})
-        .on('transactionHash', (hash) => {
-          this.updatePendingStatus(txCount, block, hash)
-        })
-      }else{
-        contract.methods.fundManagerWithdraw().send({ from: this.props.accounts[0]})
-        .on('transactionHash', (hash) => {
-          this.updatePendingStatus(txCount, block, hash)
-        })
-      }
+      contract.methods.fundManagerWithdraw().send({ from: this.props.accounts[0]})
+      .on('transactionHash', (hash) => {
+        this.updatePendingStatus(txCount, block, hash)
+      })
     }
     catch(e){
      alert('Can not verify transaction data, please try again in a minute')
