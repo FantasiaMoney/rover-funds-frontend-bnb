@@ -12,7 +12,8 @@ import {
   APIEnpoint,
   ExchangePortalAddressV7,
   ExchangePortalABIV6,
-  ExchangePortalDeprecated
+  ExchangePortalDeprecated,
+  MockExchangePortal
 } from '../../config.js'
 
 import {
@@ -570,10 +571,12 @@ class TradeModalV3 extends Component {
 
           {
             String(this.state.exchangePortalAddress).toLowerCase() === String(ExchangePortalDeprecated).toLowerCase()
+            ||
+            String(this.state.exchangePortalAddress).toLowerCase() === String(MockExchangePortal).toLowerCase()
             ?
             (
               <Alert variant="warning">
-              <strong>Your trade portal version is deprecated, please update</strong>
+              <strong>Your trade portal version is deprecated, please update for correct trade</strong>
               <hr/>
               <Button
               variant="outline-dark"

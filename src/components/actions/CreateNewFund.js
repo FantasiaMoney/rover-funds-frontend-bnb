@@ -31,7 +31,6 @@ class CreateNewFund extends Component {
   }
 
   createNewFund = async () =>{
-  console.log("Trigger")
   if(this.state.Percent > 0 && this.state.Percent <= 30){
   const contract = new this.props.web3.eth.Contract(SmartFundRegistryABIV9, SmartFundRegistryADDRESS)
     if(this.state.FundName !== ''){

@@ -17,6 +17,8 @@ import EtherscanButton from './actions/EtherscanButton'
 import Withdraw from './actions/Withdraw'
 import Deposit from './actions/Deposit'
 import UserHoldings from './actions/UserHoldings'
+import MigrateToV9 from './actions/MigrateToV9'
+
 // import CompoundLoan from './actions/CompoundLoan'
 // import YearnLoan from './actions/YearnLoan'
 import UpdateUSDAsset from './actions/UpdateUSDAsset'
@@ -193,6 +195,13 @@ class ViewFund extends Component {
  render() {
     return (
     <React.Fragment>
+    <MigrateToV9
+      version={this.state.version}
+      owner={this.state.owner}
+      web3={this.props.web3}
+      accounts={this.props.accounts}
+      smartFundAddress={this.state.smartFundAddress}
+    />
     {
       this.props.web3 && this.state.isDataLoad
       ?

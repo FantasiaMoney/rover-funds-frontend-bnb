@@ -7,6 +7,7 @@ export const MAX_TOKENS = 20
 export const OneInchApi = 'https://api.1inch.exchange/v3.0/56/'
 
 export const ExchangePortalDeprecated = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D3130f'
+export const MockExchangePortal = '0xe81F3fF8c7D6F2E3f19A7872fD32D5EAC5491C91'
 
 // BSC
 export const NeworkID = 56
