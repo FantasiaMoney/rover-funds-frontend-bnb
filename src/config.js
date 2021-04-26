@@ -10,8 +10,9 @@ export const ExchangePortalDeprecated = '0xC8A2Ba3E9CE03f78551d7dE5706Cc275d4D31
 
 // BSC
 export const NeworkID = 56
-export const SmartFundRegistryADDRESS = '0x3e3C06d526b38F67D7a897Bba20906f36D2793A3'
-export const ExchangePortalAddressV7 = '0x5d1A6508433067191002c0655D9f2Dcf62768224'
+// V9
+export const SmartFundRegistryADDRESS = '0x759563F3A0f51A202e504BE5Ea3DeF0D3b4e6933'
+export const ExchangePortalAddressV7 = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
 export const EtherscanLink = 'https://bscscan.com/'
 export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9005/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'
@@ -3661,7 +3662,7 @@ export const ExchangePortalABIV6 = [
 	}
 ]
 
-export const SmartFundRegistryABIV7 = [
+export const SmartFundRegistryABIV9 = [
 	{
 		"inputs": [
 			{
@@ -3676,32 +3677,12 @@ export const SmartFundRegistryABIV7 = [
 			},
 			{
 				"internalType": "address",
-				"name": "_stableCoinAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_COTCoinAddress",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
 				"name": "_smartFundETHFactory",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
 				"name": "_smartFundERC20Factory",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_smartFundETHLightFactory",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "_smartFundERC20LightFactory",
 				"type": "address"
 			},
 			{
@@ -3761,19 +3742,6 @@ export const SmartFundRegistryABIV7 = [
 		"type": "fallback"
 	},
 	{
-		"inputs": [],
-		"name": "COTCoinAddress",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "string",
@@ -3786,9 +3754,9 @@ export const SmartFundRegistryABIV7 = [
 				"type": "uint256"
 			},
 			{
-				"internalType": "uint256",
-				"name": "_fundType",
-				"type": "uint256"
+				"internalType": "address",
+				"name": "_coreAsset",
+				"type": "address"
 			},
 			{
 				"internalType": "bool",
@@ -3797,34 +3765,6 @@ export const SmartFundRegistryABIV7 = [
 			}
 		],
 		"name": "createSmartFund",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_name",
-				"type": "string"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_successFee",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "_fundType",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bool",
-				"name": "_isRequireTradeVerification",
-				"type": "bool"
-			}
-		],
-		"name": "createSmartFundLight",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -3909,6 +3849,19 @@ export const SmartFundRegistryABIV7 = [
 	},
 	{
 		"inputs": [],
+		"name": "platformFeeAddress",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
 		"name": "poolPortalAddress",
 		"outputs": [
 			{
@@ -3970,11 +3923,11 @@ export const SmartFundRegistryABIV7 = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_smartFundERC20Factory",
+				"name": "_newPlatformFeeAddress",
 				"type": "address"
 			}
 		],
-		"name": "setNewSmartFundERC20Factory",
+		"name": "setNewPlatformFeeAddress",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -3983,11 +3936,11 @@ export const SmartFundRegistryABIV7 = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_smartFundERC20LightFactory",
+				"name": "_smartFundERC20Factory",
 				"type": "address"
 			}
 		],
-		"name": "setNewSmartFundERC20LightFactory",
+		"name": "setNewSmartFundERC20Factory",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -4009,19 +3962,6 @@ export const SmartFundRegistryABIV7 = [
 		"inputs": [
 			{
 				"internalType": "address",
-				"name": "_smartFundETHLightFactory",
-				"type": "address"
-			}
-		],
-		"name": "setNewSmartFundETHLightFactory",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
 				"name": "_poolPortalAddress",
 				"type": "address"
 			}
@@ -4032,37 +3972,11 @@ export const SmartFundRegistryABIV7 = [
 		"type": "function"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_stableCoinAddress",
-				"type": "address"
-			}
-		],
-		"name": "setStableCoinAddress",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"inputs": [],
 		"name": "smartFundERC20Factory",
 		"outputs": [
 			{
 				"internalType": "contract SmartFundERC20FactoryInterface",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "smartFundERC20LightFactory",
-		"outputs": [
-			{
-				"internalType": "contract SmartFundERC20LightFactoryInterface",
 				"name": "",
 				"type": "address"
 			}
@@ -4084,19 +3998,6 @@ export const SmartFundRegistryABIV7 = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "smartFundETHLightFactory",
-		"outputs": [
-			{
-				"internalType": "contract SmartFundETHLightFactoryInterface",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -4105,19 +4006,6 @@ export const SmartFundRegistryABIV7 = [
 			}
 		],
 		"name": "smartFunds",
-		"outputs": [
-			{
-				"internalType": "address",
-				"name": "",
-				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "stableCoinAddress",
 		"outputs": [
 			{
 				"internalType": "address",

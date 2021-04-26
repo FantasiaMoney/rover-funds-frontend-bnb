@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 
 import {
   APIEnpoint,
-  SmartFundRegistryABIV7,
-  SmartFundRegistryADDRESS
+  SmartFundRegistryABIV9,
+  SmartFundRegistryADDRESS,
 } from '../../config.js'
 
 import { Modal, Form } from "react-bootstrap"
@@ -14,7 +14,8 @@ import TextField from '@material-ui/core/TextField'
 import InputAdornment from '@material-ui/core/InputAdornment'
 import axios from 'axios'
 
-const fundType = { "BNB":0, "USD":1}
+const ETH_ADDRESS = '0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE'
+const USD_ADDRESS = '0xe9e7cea3dedca5984780bafc599bd69add087d56'
 
 class CreateNewFund extends Component {
   constructor(props, context) {
@@ -25,41 +26,36 @@ class CreateNewFund extends Component {
       Percent: 20,  // NOTE: this number should be mul by 100 !!!
       FundAsset: 'BNB',
       FundName: '',
-      TradeVerification: false
+      TradeVerification: true
     }
   }
 
   createNewFund = async () =>{
+  console.log("Trigger")
   if(this.state.Percent > 0 && this.state.Percent <= 30){
-
-  // select registry address (v7 or v8)
-  const registryAddress = SmartFundRegistryADDRESS
-
-  console.log("registryAddress", registryAddress)
-
-  const contract = new this.props.web3.eth.Contract(SmartFundRegistryABIV7, registryAddress)
+  const contract = new this.props.web3.eth.Contract(SmartFundRegistryABIV9, SmartFundRegistryADDRESS)
     if(this.state.FundName !== ''){
       try{
         const name = this.state.FundName
         const percent = this.state.Percent * 100 // MUL Percent by 100
         const verifiacton = this.state.TradeVerification
         const block = await this.props.web3.eth.getBlockNumber()
-        const _fundType = this.state.FundAsset
+        const coreAsset = this.state.FundAsset === "BNB" ? ETH_ADDRESS : USD_ADDRESS
 
-        console.log(name, percent, fundType[_fundType], verifiacton, _fundType)
+        console.log(name, percent, coreAsset, verifiacton, this.state.FundAsset)
 
         // get cur tx count
         let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
         txCount = txCount.data.result
 
-        contract.methods.createSmartFund(name, percent, fundType[_fundType], verifiacton)
+        // create fund
+        contract.methods.createSmartFund(name, percent, coreAsset, verifiacton)
         .send({ from: this.props.accounts[0] })
         .on('transactionHash', (hash) => {
         // pending status for DB
         setPending(null, 1, this.props.accounts[0], block, hash, "SmartFundCreated")
         this.props.pending(true, txCount+1)
         })
-
         // close modal
         this.modalClose()
       }
@@ -130,7 +126,7 @@ class CreateNewFund extends Component {
           <hr/>
 
           <Form.Group>
-          <Form.Label>Performance Fee % <UserInfo  info="This is the % the fund manager earns for the profits earned, relative to main fund asset (BNB or USD)."/></Form.Label>
+          <Form.Label>Performance Fee % <UserInfo  info="This is the % the fund manager earns for the profits earned, relative to main fund asset (BNB, USD or COT)."/></Form.Label>
           <TextField
             id="outlined-name"
             label="Performance Fee"
@@ -162,6 +158,7 @@ class CreateNewFund extends Component {
             <option>USD</option>
           </Form.Control>
           </Form.Group>
+
 
           <hr/>
 
