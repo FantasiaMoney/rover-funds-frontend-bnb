@@ -11,8 +11,9 @@ import {
 } from "react-bootstrap"
 
 function update(web3, account, smartFundAddress) {
-  const contract = new web3.eth.Conatrct(SmartFundABIV7, smartFundAddress)
+  const contract = new web3.eth.Contract(SmartFundABIV7, smartFundAddress)
   contract.methods.setNewExchangePortal(MockExchangePortal)
+  .send({ from:account })
 }
 
 function MigrateToV9(props) {
