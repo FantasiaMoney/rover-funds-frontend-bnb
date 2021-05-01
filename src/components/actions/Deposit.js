@@ -104,8 +104,7 @@ class Deposit extends Component {
           "to": ercAssetAddress,
           "value": "0x0",
           "data": approveData,
-          "gasPrice": gasPrice,
-          "gas": this.props.web3.eth.utils.toHex(85000),
+          "gasPrice": gasPrice
         }
 
         // Deposit
@@ -117,8 +116,7 @@ class Deposit extends Component {
           "to": address,
           "value": "0x0",
           "data": depositData,
-          "gasPrice": gasPrice,
-          "gas": this.props.web3.eth.utils.toHex(285000),
+          "gasPrice": gasPrice
         }
 
         // Create Batch request
