@@ -94,7 +94,7 @@ class WithdrawManager extends Component {
           </Modal.Header>
           <Modal.Body>
           {
-            this.props.version > 7
+            this.props.version === 8
             ?
             (
               <p>Please update fund value</p>
