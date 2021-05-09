@@ -15,7 +15,6 @@ import {
 } from '../../../utils/weiByDecimals'
 import axios from 'axios'
 
-
 class DepositERC20 extends Component {
   constructor(props, context) {
     super(props, context);
@@ -25,7 +24,8 @@ class DepositERC20 extends Component {
       ValueError: "",
       ercAssetContract:null,
       userWalletBalance:'0',
-      requireApprove:false
+      isApproved:true,
+      aprovePending:false
     }
   }
 
@@ -37,10 +37,12 @@ class DepositERC20 extends Component {
 
   checkAllowanceInterval(){
     let timerId = setInterval(async () => {
-      const requireApprove = await this.updateERC20DepositInfo()
-      console.log("requireApprove", requireApprove)
-      if(requireApprove)
+      const isApproved = await this.updateERC20DepositInfo()
+      console.log("isApproved", isApproved)
+      if(isApproved){
         clearInterval(timerId)
+        this.setState({ aprovePending:false })
+      }
     }, 3000)
   }
 
@@ -79,17 +81,15 @@ class DepositERC20 extends Component {
       allowance
     )
 
-    console.log(Number(this.state.DepositValue), Number(allowanceFromWei))
-    console.log(Number(this.state.DepositValue) > Number(allowanceFromWei))
+    const isApproved = Number(allowanceFromWei) > Number(this.state.DepositValue)
 
-    const requireApprove = Number(this.state.DepositValue) > Number(allowanceFromWei)
     this.setState({
       ercAssetAddress,
       ercAssetContract,
-      requireApprove
+      isApproved
     })
 
-    return requireApprove
+    return isApproved
   }
 
   unlockERC20 = async () => {
@@ -113,6 +113,8 @@ class DepositERC20 extends Component {
       setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit")
       // run interval
       this.checkAllowanceInterval()
+      // show pending
+      this.setState({ aprovePending:true })
       })
     }
     catch(e){
@@ -137,6 +139,8 @@ class DepositERC20 extends Component {
 
       let block = await this.props.web3.eth.getBlockNumber()
 
+      this.props.modalClose()
+
       // Deposit ERC20
       fundERC20.methods.deposit(amount)
       .send({ from: this.props.accounts[0]})
@@ -146,8 +150,6 @@ class DepositERC20 extends Component {
       // pending status for DB
       setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit")
       })
-
-      this.modalClose()
     }
     catch(e){
     alert("Can not verify transaction data, please try again in a minute")
@@ -181,9 +183,10 @@ class DepositERC20 extends Component {
       </Form.Group>
 
       {
-        this.state.requireApprove
+        !this.state.isApproved
         ?
         (
+          <>
           <Button
             variant="warning"
             type="button"
@@ -191,6 +194,18 @@ class DepositERC20 extends Component {
           >
           Unlock
           </Button>
+          <br/>
+          <br/>
+          {
+            this.state.aprovePending
+            ?
+            (
+              <small>Please wait for the transaction to be confirmed ...</small>
+            )
+            :
+            null
+          }
+          </>
         )
         :
         (

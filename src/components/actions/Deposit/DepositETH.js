@@ -49,6 +49,8 @@ class DepositETH extends Component {
 
       let block = await this.props.web3.eth.getBlockNumber()
 
+      this.props.modalClose()
+
       fundETH.methods.deposit().send({ from: this.props.accounts[0], value:amount})
       .on('transactionHash', (hash) => {
       // pending status for spiner
@@ -56,14 +58,11 @@ class DepositETH extends Component {
       // pending status for DB
       setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit")
       })
-
-      this.modalClose()
     }catch(e){
       alert("Can not verify transaction data, please try again in a minute")
     }
  }
 
- modalClose = () => this.setState({ Show: false, Agree: false });
 
  render() {
    console.log(this.state.DepositValue)

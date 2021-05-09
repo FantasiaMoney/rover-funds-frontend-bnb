@@ -62,6 +62,7 @@ class Deposit extends Component {
                     address={this.props.address}
                     web3={this.props.web3}
                     pending={this.props.pending}
+                    modalClose={this.modalClose}
                   />
                 )
                 :
@@ -72,6 +73,7 @@ class Deposit extends Component {
                     address={this.props.address}
                     web3={this.props.web3}
                     pending={this.props.pending}
+                    modalClose={this.modalClose}
                   />
                 )
               }
