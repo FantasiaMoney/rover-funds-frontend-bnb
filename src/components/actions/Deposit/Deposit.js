@@ -61,6 +61,7 @@ class Deposit extends Component {
                     accounts={this.props.accounts}
                     address={this.props.address}
                     web3={this.props.web3}
+                    pending={this.props.pending}
                   />
                 )
                 :
@@ -70,6 +71,7 @@ class Deposit extends Component {
                     accounts={this.props.accounts}
                     address={this.props.address}
                     web3={this.props.web3}
+                    pending={this.props.pending}
                   />
                 )
               }
@@ -84,7 +86,7 @@ class Deposit extends Component {
             (
               <>
               <br/>
-              <Alert variant="warning">{`We recommend depositing only to funds version 7 and higher, version of this fund is ${this.props.version}`}</Alert>
+              <Alert variant="warning">{`We recommend depositing only to funds version 9 and higher, version of this fund is ${this.props.version}`}</Alert>
               </>
             ):null
           }

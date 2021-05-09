@@ -35,27 +35,13 @@ class DepositERC20 extends Component {
     }
   }
 
-  updateERC20DepositInfo = async() => {
-    const contract = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
-    const ercAssetAddress = await contract.methods.coreFundAsset().call()
-    const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
-
-    const allowance = await contract.methods.allowance(
-      this.props.address,
-      this.props.accounts[0]
-    ).call()
-
-    const allowanceFromWei = fromWeiByDecimalsInput(
-      await contract.methods.decimals().call(),
-      allowance
-    )
-
-    const requireApprove = Number(this.state.DepositValue) > Number(allowanceFromWei)
-    this.setState({
-      ercAssetAddress,
-      ercAssetContract,
-      requireApprove
-    })
+  checkAllowanceInterval(){
+    let timerId = setInterval(async () => {
+      const requireApprove = await this.updateERC20DepositInfo()
+      console.log("requireApprove", requireApprove)
+      if(requireApprove)
+        clearInterval(timerId)
+    }, 3000)
   }
 
   validation = async () => {
@@ -78,6 +64,34 @@ class DepositERC20 extends Component {
     this.depositERC20()
   }
 
+  updateERC20DepositInfo = async() => {
+    const fund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.address)
+    const ercAssetAddress = await fund.methods.coreFundAsset().call()
+    const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
+
+    const allowance = await ercAssetContract.methods.allowance(
+      this.props.accounts[0],
+      this.props.address
+    ).call()
+
+    const allowanceFromWei = fromWeiByDecimalsInput(
+      await ercAssetContract.methods.decimals().call(),
+      allowance
+    )
+
+    console.log(Number(this.state.DepositValue), Number(allowanceFromWei))
+    console.log(Number(this.state.DepositValue) > Number(allowanceFromWei))
+
+    const requireApprove = Number(this.state.DepositValue) > Number(allowanceFromWei)
+    this.setState({
+      ercAssetAddress,
+      ercAssetContract,
+      requireApprove
+    })
+
+    return requireApprove
+  }
+
   unlockERC20 = async () => {
     try{
       // get cur tx count
@@ -97,6 +111,8 @@ class DepositERC20 extends Component {
       this.props.pending(true, txCount+1)
       // pending status for DB
       setPending(this.props.address, 1, this.props.accounts[0], block, hash, "Deposit")
+      // run interval
+      this.checkAllowanceInterval()
       })
     }
     catch(e){
