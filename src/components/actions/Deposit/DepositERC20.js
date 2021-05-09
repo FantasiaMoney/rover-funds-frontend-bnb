@@ -40,9 +40,21 @@ class DepositERC20 extends Component {
     const ercAssetAddress = await contract.methods.coreFundAsset().call()
     const ercAssetContract = new this.props.web3.eth.Contract(ERC20ABI, ercAssetAddress)
 
+    const allowance = await contract.methods.allowance(
+      this.props.address,
+      this.props.accounts[0]
+    ).call()
+
+    const allowanceFromWei = fromWeiByDecimalsInput(
+      await contract.methods.decimals().call(),
+      allowance
+    )
+
+    const requireApprove = Number(this.state.DepositValue) > Number(allowanceFromWei)
     this.setState({
       ercAssetAddress,
-      ercAssetContract
+      ercAssetContract,
+      requireApprove
     })
   }
 
@@ -131,7 +143,7 @@ class DepositERC20 extends Component {
 
  render() {
     return (
-      <Form>
+      <>
       <Form.Group>
       <Form.Label>Amount of {this.props.mainAsset}</Form.Label>
       <Form.Control
@@ -157,7 +169,7 @@ class DepositERC20 extends Component {
         ?
         (
           <Button
-            variant="outline-primary"
+            variant="warning"
             type="button"
             onClick={() => this.unlockERC20()}
           >
@@ -175,7 +187,7 @@ class DepositERC20 extends Component {
           </Button>
         )
       }
-      </Form>
+      </>
     )
   }
 }
