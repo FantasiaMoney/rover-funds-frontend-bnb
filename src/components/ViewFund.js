@@ -15,7 +15,7 @@ import WhiteList from './actions/WhiteList'
 import FakeButton from './templates/FakeButton'
 import EtherscanButton from './actions/EtherscanButton'
 import Withdraw from './actions/Withdraw'
-import Deposit from './actions/Deposit'
+import Deposit from './actions/Deposit/Deposit'
 import UserHoldings from './actions/UserHoldings'
 import MigrateToV9 from './actions/MigrateToV9'
 
