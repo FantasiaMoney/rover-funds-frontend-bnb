@@ -18,8 +18,6 @@ class DepositETH extends Component {
     super(props, context);
 
     this.state = {
-      Show: false,
-      Agree: false,
       DepositValue:0,
       ValueError: ''
     }
@@ -32,7 +30,7 @@ class DepositETH extends Component {
     }
 
     const userBalance = await this.props.web3.eth.getBalance(this.props.accounts[0])
-    if(this.state.DepositValue > fromWei(userBalance)){
+    if(Number(this.state.DepositValue) > Number(fromWei(userBalance))){
       this.setState({ ValueError:`Not enough ${this.props.mainAsset}` })
       return
     }
