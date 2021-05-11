@@ -10,10 +10,8 @@ import {
   NeworkID,
   ERC20ABI,
   APIEnpoint,
-  ExchangePortalAddressV7,
+  ExchangePortalAddressLight,
   ExchangePortalABIV6,
-  ExchangePortalDeprecated,
-  MockExchangePortal,
   PricePortalPancake,
   PricePortalPancakeABI
 } from '../../config.js'
@@ -372,7 +370,7 @@ class TradeModalV3 extends Component {
     }
     // from test net get value from Bancor via old portal v
     else{
-      const portal = new this.props.web3.eth.Contract(ExchangePortalABIV6, ExchangePortalAddressV7)
+      const portal = new this.props.web3.eth.Contract(ExchangePortalABIV6, ExchangePortalAddressLight)
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
 
       return await portal.methods.getValueViaOneInch(
@@ -453,7 +451,7 @@ class TradeModalV3 extends Component {
   // provide to fund latest version of trade portal
   updateTradePortal(){
     const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
-    smartFund.methods.setNewExchangePortal(ExchangePortalAddressV7)
+    smartFund.methods.setNewExchangePortal(ExchangePortalAddressLight)
     .send({ from:this.props.accounts[0] })
     this.closeModal()
   }
@@ -582,9 +580,7 @@ class TradeModalV3 extends Component {
           {this.ErrorMsg()}
 
           {
-            String(this.state.exchangePortalAddress).toLowerCase() === String(ExchangePortalDeprecated).toLowerCase()
-            ||
-            String(this.state.exchangePortalAddress).toLowerCase() === String(MockExchangePortal).toLowerCase()
+            String(this.state.exchangePortalAddress).toLowerCase() !== String(ExchangePortalAddressLight).toLowerCase()
             ?
             (
               <Alert variant="warning">
