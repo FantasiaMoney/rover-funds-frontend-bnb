@@ -24,6 +24,7 @@ import {
   InputGroup
 } from "react-bootstrap"
 
+import MigrateToNewPortal from './MigrateToNewPortal'
 import SetGasPrice from '../settings/SetGasPrice'
 import setPending from '../../utils/setPending'
 import getMerkleTreeData from '../../utils/getMerkleTreeData'
@@ -448,14 +449,6 @@ class TradeModalV3 extends Component {
     return String(From[0].address).toLowerCase()
   }
 
-  // provide to fund latest version of trade portal
-  updateTradePortal(){
-    const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
-    smartFund.methods.setNewExchangePortal(ExchangePortalAddressLight)
-    .send({ from:this.props.accounts[0] })
-    this.closeModal()
-  }
-
   // reset states after close modal
   closeModal = () => this.setState({
     ShowModal: false,
@@ -579,36 +572,23 @@ class TradeModalV3 extends Component {
           {/* Display error */}
           {this.ErrorMsg()}
 
+          {/* Trigger tarde */}
+          <br />
+          <Button variant="outline-primary" onClick={() => this.validation()}>Trade</Button>
+          <br />
           {
-            String(this.state.exchangePortalAddress).toLowerCase() !== String(ExchangePortalAddressLight).toLowerCase()
-            ?
-            (
-              <Alert variant="warning">
-              <strong>Your trade portal version is deprecated, please update for correct trade</strong>
-              <hr/>
-              <Button
-              variant="outline-dark"
-              size="sm"
-              onClick={() => this.updateTradePortal()}
-              >
-              Update
-              </Button>
-              </Alert>
-            )
-            :
-            (
-              <>
-              {/* Trigger tarde */}
-              <br />
-              <Button variant="outline-primary" onClick={() => this.validation()}>Trade</Button>
-              <br />
-              {
-                this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
-              }
-              </>
-            )
+            this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
           }
 
+
+          {/* check if need update portal */}
+          <MigrateToNewPortal
+            exchangePortalAddress={this.state.exchangePortalAddress}
+            web3={this.props.web3}
+            accounts={this.props.accounts}
+            smartFundAddress={this.props.smartFundAddress}
+            closeModal={this.closeModal}
+          />
 
           {/* Update gas price */}
           <br />

@@ -13,20 +13,22 @@ export const MockExchangePortal = '0xe81F3fF8c7D6F2E3f19A7872fD32D5EAC5491C91'
 export const NeworkID = 56
 // V9
 export const SmartFundRegistryADDRESS = '0x759563F3A0f51A202e504BE5Ea3DeF0D3b4e6933'
-export const ExchangePortalAddressLight = '0x34A872911a7a3C7112F4821cfaAe42660D24AEE9'
+
 export const EtherscanLink = 'https://bscscan.com/'
 export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9005/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'
 export const PricePortalPancake = "0x7eb09Fbd33b87808512E7EE20b68933876862f9f"
-
-// depricated
-// export const ExchangePortalAddressV7 = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
+// pools, defi, 1inch
+export const ExchangePortalAddressFull = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
+// only erc20
+export const ExchangePortalAddressLight = '0x34A872911a7a3C7112F4821cfaAe42660D24AEE9'
+export const WETH = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 
 
 // // TEST NET BSC
 // export const NeworkID = 97
 // export const SmartFundRegistryADDRESS = '0xdb622775C42B83bfE11e218E0F8b8ec3435ACdE9'
-// export const ExchangePortalAddressV7 = '0x79E33056324447e0153239C21DF3e05eE43dF86C'
+// export const ExchangePortalAddressFull = '0x79E33056324447e0153239C21DF3e05eE43dF86C'
 // export const EtherscanLink = 'https://testnet.bscscan.com/'
 // export const APIEnpoint = !isLocal ? 'https://api2.cotrader.com/' : 'http://localhost:9000/'
 // export const BloxyLink = 'https://bloxy.info/portfolios/'
