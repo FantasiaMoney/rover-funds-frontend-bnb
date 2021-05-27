@@ -14,35 +14,31 @@ import {
   ExchangePortalABIV6,
   PricePortalPancake,
   PricePortalPancakeABI
-} from '../../config.js'
+} from '../../../config.js'
 
 import {
   Button,
-  Modal,
   Form,
   Alert,
   InputGroup
 } from "react-bootstrap"
 
-import MigrateToNewPortal from './MigrateToNewPortal'
-import SetGasPrice from '../settings/SetGasPrice'
-import setPending from '../../utils/setPending'
-import getMerkleTreeData from '../../utils/getMerkleTreeData'
+import setPending from '../../../utils/setPending'
+import getMerkleTreeData from '../../../utils/getMerkleTreeData'
 import axios from 'axios'
-import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../utils/weiByDecimals'
-import checkTokensLimit from '../../utils/checkTokensLimit'
-import Pending from '../templates/Spiners/Pending'
+import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/weiByDecimals'
+import checkTokensLimit from '../../../utils/checkTokensLimit'
+import Pending from '../../templates/Spiners/Pending'
 import BigNumber from 'bignumber.js'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import { testnetTokens, testnetSymbols } from '../../storage/testnetTokens'
+import { testnetTokens, testnetSymbols } from '../../../storage/testnetTokens'
 
 
-class TradeModalV3 extends Component {
+class TradeViaOneInch extends Component {
   constructor(props, context) {
     super(props, context);
 
     this.state = {
-      ShowModal: false,
       Send: 'BNB',
       Recive:'BUSD',
       AmountSend:0,
@@ -56,10 +52,7 @@ class TradeModalV3 extends Component {
       sendTo:'',
       decimalsFrom:18,
       decimalsTo:18,
-      prepareData:false,
-      shouldUpdatePrice:false,
-      exchangePortalVersion:0,
-      exchangePortalAddress:''
+      prepareData:false
     }
   }
 
@@ -124,14 +117,6 @@ class TradeModalV3 extends Component {
     else{
       alert("There are no tokens for your ETH network")
     }
-
-    const {
-      exchangePortalAddress,
-      exchangePortalVersion
-    } = await this.getExchangePortalVersion(this.props.smartFundAddress)
-
-
-    this.setState({ exchangePortalAddress, exchangePortalVersion })
   }
 
   // Show err msg if there are some msg
@@ -145,15 +130,6 @@ class TradeModalV3 extends Component {
     }else {
       return null
     }
-  }
-
-  // return version of fund Exchange portal
-  getExchangePortalVersion = async (fundAddress) => {
-    const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, fundAddress)
-    const exchangePortalAddress = await smartFund.methods.exchangePortal().call()
-    const exchangePortal = new this.props.web3.eth.Contract(ExchangePortalABIV6, exchangePortalAddress)
-    const exchangePortalVersion = Number(await exchangePortal.methods.version().call())
-    return { exchangePortalAddress, exchangePortalVersion }
   }
 
 
@@ -319,7 +295,6 @@ class TradeModalV3 extends Component {
   }
 
 
-
   // Validation input and smart fund balance
   validation = async () => {
     const connector = await this.verifyConnector(this.state.sendTo)
@@ -452,7 +427,6 @@ class TradeModalV3 extends Component {
 
   // reset states after close modal
   closeModal = () => this.setState({
-    ShowModal: false,
     Send: 'BNB',
     Recive:'BUSD',
     AmountSend:0,
@@ -465,28 +439,13 @@ class TradeModalV3 extends Component {
   render() {
    return (
       <div>
-        <Button variant="outline-primary" onClick={() => this.setState({ ShowModal: true })}>
-          Exchange
-        </Button>
-
-          <Modal
-          size="lg"
-          show={this.state.ShowModal}
-          onHide={() => this.closeModal()}
-          aria-labelledby="example-modal-sizes-title-lg"
-          >
-          <Modal.Header closeButton>
-            <Modal.Title id="example-modal-sizes-title-lg">
-              Exchange
-            </Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-          {
-          this.state.tokens
-          ?
-          (
-          <Form>
-
+      <br/>
+      <br/>
+      {
+        this.state.tokens
+        ?
+        (
+          <>
           {/* SEND */}
           <Form.Label>Pay with</Form.Label>
           <InputGroup className="mb-3">
@@ -580,31 +539,15 @@ class TradeModalV3 extends Component {
           {
             this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null
           }
-
-
-          {/* check if need update portal */}
-          <MigrateToNewPortal
-            exchangePortalAddress={this.state.exchangePortalAddress}
-            web3={this.props.web3}
-            accounts={this.props.accounts}
-            smartFundAddress={this.props.smartFundAddress}
-            closeModal={this.closeModal}
-          />
-
-          {/* Update gas price */}
-          <br />
-          {
-            this.props.web3 ? <SetGasPrice web3={this.props.web3}/> : null
-          }
-           </Form>
-          )
-          :
-          (<p>Load data...</p>)
-          }
-          </Modal.Body>
-        </Modal>
-        </div>
+           </>
+        )
+        :
+        (
+          <p>Load data</p>
+        )
+      }
+      </div>
     )
   }
 }
-export default TradeModalV3
+export default TradeViaOneInch

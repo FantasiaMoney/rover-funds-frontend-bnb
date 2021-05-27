@@ -9,7 +9,7 @@ import { EtherscanLink, APIEnpoint, NeworkID }  from '../config.js'
 import io from "socket.io-client"
 import _ from 'lodash'
 
-import TradeModalV3 from './actions/TradeModalV3'
+import TradeModal from './actions/TradeModal/TradeModal'
 import WithdrawManager from './actions/WithdrawManager'
 import WhiteList from './actions/WhiteList'
 import FakeButton from './templates/FakeButton'
@@ -414,7 +414,7 @@ class ViewFund extends Component {
              <React.Fragment>
              {
                <li>
-                <TradeModalV3
+                <TradeModal
                   web3={this.props.web3}
                   accounts={this.props.accounts}
                   smartFundAddress={this.state.smartFundAddress}
