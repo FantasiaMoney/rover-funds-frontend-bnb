@@ -31,7 +31,6 @@ import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../templates/Spiners/Pending'
 import BigNumber from 'bignumber.js'
 import { Typeahead } from 'react-bootstrap-typeahead'
-import { testnetTokens, testnetSymbols } from '../../../storage/testnetTokens'
 
 
 class TradeViaCoSwap extends Component {
@@ -86,34 +85,16 @@ class TradeViaCoSwap extends Component {
   // get tokens addresses and symbols from paraswap api
   initData = async () => {
     if(NeworkID === 56){
-      // get tokens from api
-      try{
-        let data = await axios.get(OneInchApi + 'tokens')
-        const tokens = []
-        const symbols = []
 
-        for (const [, value] of Object.entries(data.data.tokens)) {
-          symbols.push(value.symbol)
-          tokens.push({
-            symbol:value.symbol,
-            address:value.address,
-            decimals:value.decimals
-          })
-        }
+      const tokens = [
+        { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
+        { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdce", decimals: 18 }
+      ]
+      const symbols = ['BNB', 'bCOT']
+      if(this._isMounted)
+        this.setState({ tokens, symbols })
+    }
 
-        if(this._isMounted)
-          this.setState({ tokens, symbols })
-      }catch(e){
-        alert("Can not get data from api, please try again latter")
-        console.log(e)
-      }
-    }
-    else if (NeworkID === 97){
-      // just provide for test few testnet tokens from storage
-      const tokens = testnetTokens
-      const symbols = testnetSymbols
-      this.setState({ tokens, symbols })
-    }
     else{
       alert("There are no tokens for your ETH network")
     }
