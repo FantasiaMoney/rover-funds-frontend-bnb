@@ -9,11 +9,10 @@ import {
   NeworkID,
   ERC20ABI,
   APIEnpoint,
-  PricePortalPancake,
-  PricePortalPancakeABI,
   UNIRouterABI,
   CoSwapRouter,
-  WETH
+  WETH,
+  ExchangePortalAddressLight
 } from '../../../config.js'
 
 import {
@@ -39,7 +38,7 @@ class TradeViaCoSwap extends Component {
 
     this.state = {
       Send: 'BNB',
-      Recive:'bCOT',
+      Recive:'COT',
       AmountSend:0,
       AmountRecive:0,
       slippageFrom:0,
@@ -81,9 +80,9 @@ class TradeViaCoSwap extends Component {
     if(NeworkID === 56){
       const tokens = [
         { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
-        { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
+        { symbol: "COT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
       ]
-      const symbols = ['BNB', 'bCOT']
+      const symbols = ['BNB', 'COT']
       if(this._isMounted)
         this.setState({ tokens, symbols })
     }
@@ -481,7 +480,18 @@ class TradeViaCoSwap extends Component {
 
           {/* Trigger tarde */}
           <br />
-          <Button variant="outline-primary" onClick={() => this.validation()}>Trade</Button>
+          {
+            this.props.exchangePortalAddress === ExchangePortalAddressLight
+            ?
+            (
+              <Button variant="outline-primary" onClick={() => this.validation()}>Trade</Button>
+            )
+            :
+            (
+              <Alert variant="danger">Please update portal to latest version, for enable CoSwap DEX in your fund</Alert>
+            )
+          }
+
           <br />
           {
             this.state.prepareData ? (<small>Preparing transaction data, please wait ...</small>) : null

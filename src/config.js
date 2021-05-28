@@ -21,7 +21,7 @@ export const PricePortalPancake = "0x7eb09Fbd33b87808512E7EE20b68933876862f9f"
 // pools, defi, 1inch
 export const ExchangePortalAddressFull = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
 // only erc20
-export const ExchangePortalAddressLight = '0x34A872911a7a3C7112F4821cfaAe42660D24AEE9'
+export const ExchangePortalAddressLight = '0x169331EC668f3ACa19feb89AC300C4b291c4C586'
 export const WETH = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 export const CoSwapRouter = '0x82d45a1cCaBE624eEB275B9d3DAA177aFf82953f'
 
