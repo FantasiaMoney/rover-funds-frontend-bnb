@@ -6,14 +6,14 @@
 import React, { Component } from 'react'
 import {
   SmartFundABIV7,
-  OneInchApi,
   NeworkID,
   ERC20ABI,
   APIEnpoint,
-  ExchangePortalAddressLight,
-  ExchangePortalABIV6,
   PricePortalPancake,
-  PricePortalPancakeABI
+  PricePortalPancakeABI,
+  UNIRouterABI,
+  CoSwapRouter,
+  WETH
 } from '../../../config.js'
 
 import {
@@ -85,10 +85,9 @@ class TradeViaCoSwap extends Component {
   // get tokens addresses and symbols from paraswap api
   initData = async () => {
     if(NeworkID === 56){
-
       const tokens = [
         { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
-        { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdce", decimals: 18 }
+        { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
       ]
       const symbols = ['BNB', 'bCOT']
       if(this._isMounted)
@@ -96,7 +95,7 @@ class TradeViaCoSwap extends Component {
     }
 
     else{
-      alert("There are no tokens for your ETH network")
+      alert("There are no tokens for your network")
     }
   }
 
@@ -216,7 +215,7 @@ class TradeViaCoSwap extends Component {
 
 
   // trade via 1 inch
-  tradeViaOneInch = async () => {
+  tradeViaCoSwap = async () => {
     try{
       const smartFund = new this.props.web3.eth.Contract(SmartFundABIV7, this.props.smartFundAddress)
       const block = await this.props.web3.eth.getBlockNumber()
@@ -238,26 +237,15 @@ class TradeViaCoSwap extends Component {
       // get merkle tree data
       const { proof, positions } = getMerkleTreeData(this.state.sendTo)
 
-      // get additional data from 1 inch api
-      let additionalData
-
-      try{
-        const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.state.exchangePortalAddress}&slippage=1&disableEstimate=true`
-        const response = await axios.get(OneInchApi + route)
-        additionalData = response.data.tx.data
-      }catch(e){
-        alert("Can not prepare data from 1 inch api")
-        console.log("1inch error ", e)
-      }
       // trade
       smartFund.methods.trade(
           this.state.sendFrom,
           amountInWei,
           this.state.sendTo,
-          0,
+          1,
           proof,
           positions,
-          additionalData,
+          "0x",
           minReturn
         )
         .send({ from: this.props.accounts[0], gasPrice })
@@ -291,13 +279,12 @@ class TradeViaCoSwap extends Component {
       const status = await this.checkFundBalance()
       if(status){
         this.setState({ prepareData:true })
-        this.tradeViaOneInch()
+        this.tradeViaCoSwap()
       }else{
         this.setState({ ERRORText:  `Your smart fund don't have enough ${this.state.Send}` })
       }
     }
   }
-
 
 
   /** dev get rate (can calculate by input to or from)
@@ -319,38 +306,27 @@ class TradeViaCoSwap extends Component {
     }
   }
 
-
-  gitRateByNetworkId = async (from, to, amount, decimalsFrom, decimalsTo) => {
-    // get value from 1 inch proto
-    if(NeworkID === 56){
-      const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
-      return await this.getRateFrom1inchApi(from, to, src)
-    }
-    // from test net get value from Bancor via old portal v
-    else{
-      const portal = new this.props.web3.eth.Contract(ExchangePortalABIV6, ExchangePortalAddressLight)
-      const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
-
-      return await portal.methods.getValueViaOneInch(
-        from,
-        to,
-        src,
-      ).call()
-    }
-  }
-
   // get ratio from 1inch or Paraswap (dependse of selected type)
   getRate = async (from, to, amount, decimalsFrom, decimalsTo) => {
-    if(amount > 0 && from !== to){
-      return await this.gitRateByNetworkId(from, to, amount, decimalsFrom, decimalsTo)
-    }
-  }
+    let price = 0
 
-  // get rate from api
-  getRateFrom1inchApi = async (from, to, srcBN) => {
-    const route = `quote?fromTokenAddress=${from}&toTokenAddress=${to}&amount=${srcBN}`
-    const response = await axios.get(OneInchApi + route)
-    return response.data.toTokenAmount
+    if(amount > 0 && from !== to){
+      const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
+      // wrap ETH case
+      const _from = String(from).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+      ? WETH
+      : from
+
+      const _to = String(to).toLowerCase() === '0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee'
+      ? WETH
+      : to
+
+      const router = new this.props.web3.eth.Contract(UNIRouterABI, CoSwapRouter)
+      const data = await router.methods.getAmountsOut(src, [_from, _to]).call()
+      price = data[1]
+    }
+
+    return price
   }
 
   // get slippage percent
