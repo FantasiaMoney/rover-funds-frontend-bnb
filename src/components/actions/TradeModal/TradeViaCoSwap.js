@@ -76,12 +76,6 @@ class TradeViaCoSwap extends Component {
     }
   }
 
-  verifyConnector = async (tokenTo) => {
-    const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
-    const connector = await pricePortal.methods.findConnector(tokenTo).call()
-    return connector
-  }
-
   // get tokens addresses and symbols from paraswap api
   initData = async () => {
     if(NeworkID === 56){
@@ -266,11 +260,7 @@ class TradeViaCoSwap extends Component {
 
   // Validation input and smart fund balance
   validation = async () => {
-    const connector = await this.verifyConnector(this.state.sendTo)
-    if(connector === "0x0000000000000000000000000000000000000000"){
-      this.setState({ ERRORText:'Sorry this pair not supported'})
-    }
-    else if(this.state.AmountSend === 0){
+    if(this.state.AmountSend === 0){
       this.setState({ ERRORText:'Please input amount'})
     }else if(this.state.Send === this.state.Recive){
       this.setState({ ERRORText:'Token directions can not be the same'})
