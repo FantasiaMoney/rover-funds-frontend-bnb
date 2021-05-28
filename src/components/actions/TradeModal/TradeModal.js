@@ -114,6 +114,7 @@ class TradeModal extends Component {
                 smartFundAddress={this.props.smartFundAddress}
                 pending={this.props.pending}
                 version={this.props.version}
+                exchangePortalAddress={this.state.exchangePortalAddress}
               />
             </Tab>
           </Tabs>

@@ -1,7 +1,4 @@
-// this trade modal work only with 1 INCH PROTO (fully onchain) and 1 INCH ETH (calldata from api)
-// with lovest price
-// also this modal work with merkle tree tokens white list verification
-// support only for versions >= 7
+// trade via 1 inch
 
 import React, { Component } from 'react'
 import {
