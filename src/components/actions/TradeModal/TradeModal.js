@@ -74,6 +74,8 @@ class TradeModal extends Component {
   // reset states after close modal
   closeModal = () => this.setState({
     ShowModal: false,
+    exchangePortalVersion:0,
+    exchangePortalAddress:''
   })
 
   render() {
@@ -105,6 +107,7 @@ class TradeModal extends Component {
                 smartFundAddress={this.props.smartFundAddress}
                 pending={this.props.pending}
                 version={this.props.version}
+                closeModal={this.closeModal}
               />
             </Tab>
             <Tab eventKey="coSwap" title="CoSwap">
@@ -115,6 +118,7 @@ class TradeModal extends Component {
                 pending={this.props.pending}
                 version={this.props.version}
                 exchangePortalAddress={this.state.exchangePortalAddress}
+                closeModal={this.closeModal}
               />
             </Tab>
           </Tabs>

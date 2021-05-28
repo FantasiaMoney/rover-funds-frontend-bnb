@@ -284,7 +284,7 @@ class TradeViaOneInch extends Component {
         setPending(this.props.smartFundAddress, 1, this.props.accounts[0], block, hash, "Trade")
       })
 
-      this.closeModal()
+      this.props.closeModal()
     }catch(e){
       this.setState({ ERRORText:'Can not verify transaction data, please try again in a minute' })
       console.log("error: ",e)
