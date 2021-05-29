@@ -258,7 +258,7 @@ class TradeViaOneInch extends Component {
       let additionalData
 
       try{
-        const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.state.exchangePortalAddress}&slippage=1&disableEstimate=true`
+        const route = `swap?fromTokenAddress=${this.state.sendFrom}&toTokenAddress=${this.state.sendTo}&amount=${amountInWei}&fromAddress=${this.props.exchangePortalAddress}&slippage=1&disableEstimate=true`
         const response = await axios.get(OneInchApi + route)
         additionalData = response.data.tx.data
       }catch(e){

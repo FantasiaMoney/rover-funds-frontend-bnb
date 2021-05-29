@@ -81,7 +81,7 @@ function MigrateToNewPortal(props) {
         Update
         </Button>
         <hr/>
-        <small>If your transaction was confirmed, but you still see this message, please reload the page</small>
+        <strong>NOTE: If your transaction was confirmed, but you still see this message, please reload the page</strong>
         </Alert>
 
         {
