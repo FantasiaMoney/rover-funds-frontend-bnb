@@ -19,36 +19,41 @@ class Withdraw extends Component {
 
   withdraw = async (address, percent) => {
   if(percent >= 0 && percent <= 100){
-    try{
-      // get corerct ABI for a certain version
-      // version 6 support convert assets
-      const contractABI = SmartFundABIV7
-      const contract = new this.props.web3.eth.Contract(contractABI, address)
+    // get corerct ABI for a certain version
+    // version 6 support convert assets
+    const contractABI = SmartFundABIV7
+    const contract = new this.props.web3.eth.Contract(contractABI, address)
+    const shares = await contract.methods.balanceOf(this.props.accounts[0]).call()
 
-      const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call()
-      const curentPercent = totalPercentage / 100 * percent
+    if(shares > 0){
+      try{
+        const totalPercentage = await contract.methods.TOTAL_PERCENTAGE().call()
+        const curentPercent = totalPercentage / 100 * percent
 
-      this.setState({ Show:false })
+        this.setState({ Show:false })
 
-      const block = await this.props.web3.eth.getBlockNumber()
+        const block = await this.props.web3.eth.getBlockNumber()
 
-      // get cur tx count
-      let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
-      txCount = txCount.data.result
+        // get cur tx count
+        let txCount = await axios.get(APIEnpoint + 'api/user-pending-count/' + this.props.accounts[0])
+        txCount = txCount.data.result
 
-      // get corerct params for a certain version
-      const params = this.props.version === 6 ? [curentPercent, this.state.isConvert] : [curentPercent]
+        // get corerct params for a certain version
+        const params = this.props.version === 6 ? [curentPercent, this.state.isConvert] : [curentPercent]
 
-      contract.methods.withdraw(...params).send({ from: this.props.accounts[0] })
-      .on('transactionHash', (hash) => {
-      // pending status for spiner
-      this.props.pending(true, txCount+1)
-      // pending status for DB
-      setPending(address, 1, this.props.accounts[0], block, hash, "Withdraw")
-      })
-    }
-    catch(e){
-     alert('Can not verify transaction data, please try again in a minute')
+        contract.methods.withdraw(...params).send({ from: this.props.accounts[0] })
+        .on('transactionHash', (hash) => {
+        // pending status for spiner
+        this.props.pending(true, txCount+1)
+        // pending status for DB
+        setPending(address, 1, this.props.accounts[0], block, hash, "Withdraw")
+        })
+      }
+      catch(e){
+       alert('Can not verify transaction data, please try again in a minute')
+      }
+    }else{
+      alert('Empty deposit')
     }
    }
   }
