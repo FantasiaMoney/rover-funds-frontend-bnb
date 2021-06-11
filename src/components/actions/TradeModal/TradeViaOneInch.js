@@ -98,6 +98,10 @@ class TradeViaOneInch extends Component {
           })
         }
 
+        // add bCOT
+        tokens.push({ symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 })
+        symbols.push("bCOT")
+
         if(this._isMounted)
           this.setState({ tokens, symbols })
       }catch(e){
