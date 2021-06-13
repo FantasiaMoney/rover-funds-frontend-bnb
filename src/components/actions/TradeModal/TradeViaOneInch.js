@@ -10,7 +10,8 @@ import {
   ExchangePortalAddressLight,
   ExchangePortalABIV6,
   PricePortalPancake,
-  PricePortalPancakeABI
+  PricePortalPancakeABI,
+  WETH
 } from '../../../config.js'
 
 import {
@@ -74,9 +75,14 @@ class TradeViaOneInch extends Component {
     }
   }
 
-  verifyConnector = async (tokenTo) => {
+  verifyConnector = async (_tokenTo) => {
+    const tokenTo = String(_tokenTo).toLowerCase() === "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee"
+    ? WETH
+    : _tokenTo
+
     const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
     const connector = await pricePortal.methods.findConnector(tokenTo).call()
+    console.log("tokenTo", tokenTo, "connector", connector)
     return connector
   }
 
