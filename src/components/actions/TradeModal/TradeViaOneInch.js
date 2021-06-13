@@ -82,7 +82,6 @@ class TradeViaOneInch extends Component {
 
     const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
     const connector = await pricePortal.methods.findConnector(tokenTo).call()
-    console.log("tokenTo", tokenTo, "connector", connector)
     return connector
   }
 
