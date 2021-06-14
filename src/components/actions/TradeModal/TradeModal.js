@@ -73,9 +73,7 @@ class TradeModal extends Component {
 
   // reset states after close modal
   closeModal = () => this.setState({
-    ShowModal: false,
-    exchangePortalVersion:0,
-    exchangePortalAddress:''
+    ShowModal: false
   })
 
   render() {
