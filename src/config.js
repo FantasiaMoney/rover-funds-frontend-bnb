@@ -17,7 +17,7 @@ export const SmartFundRegistryADDRESS = '0x759563F3A0f51A202e504BE5Ea3DeF0D3b4e6
 export const EtherscanLink = 'https://bscscan.com/'
 export const APIEnpoint = !isLocal ? 'https://api-bsc.cotrader.com/' : 'http://localhost:9005/'
 export const BloxyLink = 'https://bloxy.info/portfolios/'
-export const PricePortalPancake = "0x7eb09Fbd33b87808512E7EE20b68933876862f9f"
+export const PricePortalPancake = "0xaBbD442181DE83c54c4Cf14BbF5C03fBda8887df"
 // pools, defi, 1inch
 export const ExchangePortalAddressFull = '0x5f0b0f12718c256a0E172d199AA50F7456fd24AA'
 // only erc20
@@ -4082,12 +4082,22 @@ export const PricePortalPancakeABI = [
 			},
 			{
 				"internalType": "address",
-				"name": "_router",
+				"name": "_pancakeRouterA",
 				"type": "address"
 			},
 			{
 				"internalType": "address",
-				"name": "_factory",
+				"name": "_pancakeRouterB",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_coswapRouter",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "_bCOT",
 				"type": "address"
 			},
 			{
@@ -4145,6 +4155,19 @@ export const PricePortalPancakeABI = [
 		"type": "function"
 	},
 	{
+		"inputs": [],
+		"name": "bCOT",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
 				"internalType": "uint256",
@@ -4165,7 +4188,33 @@ export const PricePortalPancakeABI = [
 	},
 	{
 		"inputs": [],
-		"name": "factory",
+		"name": "coswapRouter",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "factoryA",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "factoryB",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -4188,7 +4237,12 @@ export const PricePortalPancakeABI = [
 		"outputs": [
 			{
 				"internalType": "address",
-				"name": "connector",
+				"name": "",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "",
 				"type": "address"
 			}
 		],
@@ -4239,14 +4293,7 @@ export const PricePortalPancakeABI = [
 	},
 	{
 		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "router",
+		"name": "pancakeRouterA",
 		"outputs": [
 			{
 				"internalType": "address",
@@ -4255,6 +4302,26 @@ export const PricePortalPancakeABI = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "pancakeRouterB",
+		"outputs": [
+			{
+				"internalType": "address",
+				"name": "",
+				"type": "address"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -4268,6 +4335,11 @@ export const PricePortalPancakeABI = [
 				"internalType": "uint256",
 				"name": "fromAmount",
 				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "router",
+				"type": "address"
 			}
 		],
 		"name": "routerRatio",

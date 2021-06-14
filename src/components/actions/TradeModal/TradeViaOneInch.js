@@ -81,8 +81,8 @@ class TradeViaOneInch extends Component {
     : _tokenTo
 
     const pricePortal = new this.props.web3.eth.Contract(PricePortalPancakeABI, PricePortalPancake)
-    const connector = await pricePortal.methods.findConnector(tokenTo).call()
-    return connector
+    const data = await pricePortal.methods.findConnector(tokenTo).call()
+    return data[0]
   }
 
   // get tokens addresses and symbols from paraswap api
