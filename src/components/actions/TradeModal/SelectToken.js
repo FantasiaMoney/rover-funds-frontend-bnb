@@ -23,7 +23,10 @@ class SelectToken extends Component {
 
     this.state = {
       Send: 'BNB',
-      ShowModal: false
+      ShowModal: false,
+      symbol:'',
+      decimals:0,
+      detectNewToken:false
     }
   }
 
@@ -36,18 +39,22 @@ class SelectToken extends Component {
   // reset states after close modal
   closeModal = () => this.setState({
     Send: 'BNB',
-    ShowModal: false
+    ShowModal: false,
+    symbol:'',
+    decimals:0,
+    address:'',
+    detectNewToken:false
   })
 
   // new function
-  typeHeadHandler = async (stateName, address) => {
+  typeHeadHandler = async (address) => {
     if(isAddress(address)){
-      await this.pushNewToken(stateName, address)
+      await this.fetchNewToken(address)
     }
   }
 
   // new function
-  pushNewToken = async (stateName, address) => {
+  fetchNewToken = async (address) => {
     try{
       const {
         symbol,
@@ -55,10 +62,14 @@ class SelectToken extends Component {
       } = await getTokenSymbolAndDecimals(address, this.props.web3)
 
       this.setState({
-        [stateName]:symbol
+        symbol,
+        decimals,
+        address,
+        detectNewToken:true
       })
     }
     catch(e){
+      alert("No standard token")
       console.log("err", e)
     }
   }
@@ -89,10 +100,9 @@ class SelectToken extends Component {
       size="lg"
       show={this.state.ShowModal}
       onHide={() => this.closeModal()}
-      aria-labelledby="example-modal-sizes-title-lg"
       >
       <Modal.Header closeButton>
-        <Modal.Title id="example-modal-sizes-title-lg">
+        <Modal.Title>
           Exchange
         </Modal.Title>
       </Modal.Header>
@@ -103,14 +113,26 @@ class SelectToken extends Component {
         (
           <>
           <Form.Label>Pay with</Form.Label>
-
+          <br/>
+            {
+              this.state.detectNewToken
+              ?
+              (
+                <Button variant="primary" onClick={() => alert("Done")}>
+                  Import {this.state.symbol} to list
+                </Button>
+              )
+              : null
+            }
+            <br/>
+            <br/>
             <Typeahead
               labelKey="sendTokens"
               multiple={false}
               id="sendTokens"
               options={this.props.symbols}
               onChange={(s) => this.changeByClick("Send", s[0])}
-              onInputChange={async (s) => this.typeHeadHandler("Send", s)}
+              onInputChange={async (s) => this.typeHeadHandler(s)}
               placeholder="Type symbol or paste address"
               renderMenuItemChildren={(options, props) => (
                 <div>
@@ -120,6 +142,8 @@ class SelectToken extends Component {
                 </div>
               )}
             />
+            <br/>
+
           </>
         )
         :

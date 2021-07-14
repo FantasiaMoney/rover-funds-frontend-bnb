@@ -382,13 +382,11 @@ class TradeViaCoSwap extends Component {
   render() {
    return (
       <div>
-      {/*
       <SelectToken
        web3={this.props.web3}
        symbols={this.state.symbols}
        tokens={this.state.tokens}
       />
-      */}
 
       <br/>
       <br/>
