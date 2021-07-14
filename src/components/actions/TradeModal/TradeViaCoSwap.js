@@ -27,7 +27,7 @@ import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../templates/Spiners/Pending'
 import BigNumber from 'bignumber.js'
 import { Typeahead } from 'react-bootstrap-typeahead'
-
+import SelectToken from './SelectToken'
 
 class TradeViaCoSwap extends Component {
   constructor(props, context) {
@@ -382,6 +382,14 @@ class TradeViaCoSwap extends Component {
   render() {
    return (
       <div>
+      {/*
+      <SelectToken
+       web3={this.props.web3}
+       symbols={this.state.symbols}
+       tokens={this.state.tokens}
+      />
+      */}
+
       <br/>
       <br/>
       {
