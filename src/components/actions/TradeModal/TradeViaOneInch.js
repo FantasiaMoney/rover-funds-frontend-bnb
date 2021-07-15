@@ -349,7 +349,13 @@ class TradeViaOneInch extends Component {
     // get value from 1 inch proto
     if(NeworkID === 56){
       const src = toWeiByDecimalsInput(decimalsFrom, amount.toString(10))
-      return await this.getRateFrom1inchApi(from, to, src)
+      try{
+        return await this.getRateFrom1inchApi(from, to, src)
+      }catch(e){
+        alert("There is no data for this pair at 1 inch")
+        return 0
+      }
+
     }
     // from test net get value from Bancor via old portal v
     else{
