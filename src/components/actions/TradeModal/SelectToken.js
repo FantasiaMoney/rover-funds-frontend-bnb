@@ -11,7 +11,6 @@ import React, { Component } from 'react'
 import {
   Modal,
   Button,
-  Form,
   InputGroup
 } from "react-bootstrap"
 
@@ -96,7 +95,11 @@ class SelectToken extends Component {
    return (
       <div>
       <InputGroup.Text>
-        <Button variant="light" onClick={() => this.setState({ ShowModal: true })}>
+        <Button
+          variant="light"
+          onClick={() => this.setState({ ShowModal: true })}
+          style={{minWidth: "160px", maxWidth: "160px"}}
+        >
           {this.props.currentSymbol}
         </Button>
       </InputGroup.Text>
@@ -117,7 +120,6 @@ class SelectToken extends Component {
         ?
         (
           <>
-          <Form.Label>Pay with</Form.Label>
           <br/>
             {
               this.state.detectNewToken
@@ -132,13 +134,14 @@ class SelectToken extends Component {
             <br/>
             <br/>
             <Typeahead
-              labelKey="sendTokens"
+              defaultOpen={true}
+              labelKey="selectTokens"
               multiple={false}
               id="sendTokens"
               options={this.props.symbols}
               onChange={(s) => this.onChangeTypeHead(this.props.direction, s[0])}
               onInputChange={async (s) => this.typeHeadHandler(s)}
-              placeholder="Type symbol or paste address"
+              placeholder="Type symbol or paste token address"
               renderMenuItemChildren={(options, props) => (
                 <div>
                   <img style={{height: "35px", width: "35px"}}src={`https://tokens.1inch.exchange/${this.getTokenAddressBySymbol(options)}.png`} alt="Logo" />
@@ -147,7 +150,6 @@ class SelectToken extends Component {
                 </div>
               )}
             />
-            <br/>
             <br/>
             <br/>
           </>

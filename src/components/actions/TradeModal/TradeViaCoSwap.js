@@ -34,7 +34,7 @@ class TradeViaCoSwap extends Component {
 
     this.state = {
       Send: 'BNB',
-      Recive:'COT',
+      Recive:'bCOT',
       AmountSend:0,
       AmountRecive:0,
       slippageFrom:0,
@@ -76,9 +76,9 @@ class TradeViaCoSwap extends Component {
     if(NeworkID === 56){
       const tokens = [
         { symbol: "BNB", address: "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", decimals: 18 },
-        { symbol: "COT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
+        { symbol: "bCOT", address: "0x304fc73e86601a61a6c6db5b0eafea587622acdc", decimals: 18 }
       ]
-      const symbols = ['BNB', 'COT']
+      const symbols = ['BNB', 'bCOT']
       if(this._isMounted)
         this.setState({ tokens, symbols })
     }
