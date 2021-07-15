@@ -1,8 +1,11 @@
 // Props
 // web3
+// currentSymbol
 // symbols
 // tokens
-// push tokens obj
+// onChangeTypeHead function
+// direction
+// pushNewTokenInList function
 
 import React, { Component } from 'react'
 import {
@@ -22,10 +25,10 @@ class SelectToken extends Component {
     super(props, context);
 
     this.state = {
-      Send: 'BNB',
       ShowModal: false,
       symbol:'',
       decimals:0,
+      address:'',
       detectNewToken:false
     }
   }
@@ -38,13 +41,17 @@ class SelectToken extends Component {
 
   // reset states after close modal
   closeModal = () => this.setState({
-    Send: 'BNB',
     ShowModal: false,
     symbol:'',
     decimals:0,
     address:'',
     detectNewToken:false
   })
+
+  onChangeTypeHead = (name, param) => {
+    this.props.onChangeTypeHead(name, param)
+    this.closeModal()
+  }
 
   // new function
   typeHeadHandler = async (address) => {
@@ -53,7 +60,7 @@ class SelectToken extends Component {
     }
   }
 
-  // new function
+  // feth token data by address
   fetchNewToken = async (address) => {
     try{
       const {
@@ -74,11 +81,15 @@ class SelectToken extends Component {
     }
   }
 
-  // helper for update state by click
-  changeByClick = (name, param) => {
-    this.setState({
-      [name]:param
-    })
+  addNewToken = async () => {
+    const tokenData = {
+      symbol:this.state.symbol,
+      address:this.state.address,
+      decimals:this.state.decimals
+    }
+    this.props.pushNewTokenInList(this.state.symbol, tokenData)
+    this.props.onChangeTypeHead(this.props.direction, this.state.symbol)
+    this.closeModal()
   }
 
   render() {
@@ -89,7 +100,7 @@ class SelectToken extends Component {
       <InputGroup.Text>
 
         <Button variant="outline-primary" onClick={() => this.setState({ ShowModal: true })}>
-          {this.state.Send}
+          {this.props.currentSymbol}
         </Button>
 
       </InputGroup.Text>
@@ -118,7 +129,7 @@ class SelectToken extends Component {
               this.state.detectNewToken
               ?
               (
-                <Button variant="primary" onClick={() => alert("Done")}>
+                <Button variant="primary" onClick={() => this.addNewToken()}>
                   Import {this.state.symbol} to list
                 </Button>
               )
@@ -131,7 +142,7 @@ class SelectToken extends Component {
               multiple={false}
               id="sendTokens"
               options={this.props.symbols}
-              onChange={(s) => this.changeByClick("Send", s[0])}
+              onChange={(s) => this.onChangeTypeHead(this.props.direction, s[0])}
               onInputChange={async (s) => this.typeHeadHandler(s)}
               placeholder="Type symbol or paste address"
               renderMenuItemChildren={(options, props) => (
@@ -143,7 +154,8 @@ class SelectToken extends Component {
               )}
             />
             <br/>
-
+            <br/>
+            <br/>
           </>
         )
         :

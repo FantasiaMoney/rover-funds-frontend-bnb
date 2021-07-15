@@ -431,17 +431,6 @@ class TradeViaOneInch extends Component {
     return String(From[0].address).toLowerCase()
   }
 
-  // reset states after close modal
-  closeModal = () => this.setState({
-    Send: 'BNB',
-    Recive:'BUSD',
-    AmountSend:0,
-    AmountRecive:0,
-    prepareData:false,
-    slippageFrom:0,
-    slippageTo:0
-  })
-
   render() {
    return (
       <div>

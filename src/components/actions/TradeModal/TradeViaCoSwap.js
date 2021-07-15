@@ -26,7 +26,6 @@ import { toWeiByDecimalsInput, fromWeiByDecimalsInput } from '../../../utils/wei
 import checkTokensLimit from '../../../utils/checkTokensLimit'
 import Pending from '../../templates/Spiners/Pending'
 import BigNumber from 'bignumber.js'
-import { Typeahead } from 'react-bootstrap-typeahead'
 import SelectToken from './SelectToken'
 
 class TradeViaCoSwap extends Component {
@@ -178,17 +177,6 @@ class TradeViaCoSwap extends Component {
       })
     }
   }
-
-
-  // helper for update state by click
-  changeByClick = (name, param) => {
-    this.setState({
-      [name]:param,
-      AmountSend:0,
-      AmountRecive:0
-    })
-  }
-
 
   // found addresses and decimals by direction symbols
   getDirectionInfo = () => {
@@ -368,26 +356,39 @@ class TradeViaCoSwap extends Component {
     return String(From[0].address).toLowerCase()
   }
 
-  // reset states after close modal
-  closeModal = () => this.setState({
-    Send: 'BNB',
-    Recive:'bCOT',
-    AmountSend:0,
-    AmountRecive:0,
-    prepareData:false,
-    slippageFrom:0,
-    slippageTo:0
-  })
+
+  // props for SelectToken component
+  onChangeTypeHead = (name, param) => {
+    this.setState({
+      [name]:param,
+      AmountSend:0,
+      AmountRecive:0
+    })
+  }
+
+  pushNewTokenInList = (tokenSymbol, tokenData) => {
+    const symbols = this.state.symbols
+    const tokens = this.state.tokens
+
+    if(!symbols.includes(tokenSymbol)){
+      symbols.push(tokenSymbol)
+      tokens.push(tokenData)
+
+      this.setState({
+        symbols,
+        tokens
+      })
+    }
+    else{
+      alert(`${tokenSymbol} alredy in list`)
+    }
+  }
+
 
   render() {
+    console.log("Send", this.state.Send, "Recive", this.state.Recive)
    return (
       <div>
-      <SelectToken
-       web3={this.props.web3}
-       symbols={this.state.symbols}
-       tokens={this.state.tokens}
-      />
-
       <br/>
       <br/>
       {
@@ -398,25 +399,15 @@ class TradeViaCoSwap extends Component {
           {/* SEND */}
           <Form.Label>Pay with</Form.Label>
           <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-          <InputGroup.Text>
-            <Typeahead
-              labelKey="sendTokens"
-              multiple={false}
-              id="sendTokens"
-              options={this.state.symbols}
-              onChange={(s) => this.changeByClick("Send", s[0])}
-              placeholder={this.state.Send}
-              renderMenuItemChildren={(options, props) => (
-                <div>
-                  <img style={{height: "35px", width: "35px"}}src={`https://tokens.1inch.exchange/${this.getTokenAddressBySymbol(options)}.png`} alt="Logo" />
-                  &nbsp; &nbsp;
-                  {options}
-                </div>
-              )}
-            />
-          </InputGroup.Text>
-          </InputGroup.Prepend>
+          <SelectToken
+           web3={this.props.web3}
+           symbols={this.state.symbols}
+           tokens={this.state.tokens}
+           onChangeTypeHead={this.onChangeTypeHead}
+           direction="Send"
+           currentSymbol={this.state.Send}
+           pushNewTokenInList={this.pushNewTokenInList}
+          />
           <Form.Control
           type="number"
           placeholder={this.state.AmountSend}
@@ -442,25 +433,15 @@ class TradeViaCoSwap extends Component {
           {/* RECEIVE */}
           <Form.Label>Receive</Form.Label>
           <InputGroup className="mb-3">
-          <InputGroup.Prepend>
-          <InputGroup.Text>
-            <Typeahead
-              labelKey="receiveTokens"
-              multiple={false}
-              id="receiveTokens"
-              options={this.state.symbols}
-              onChange={(s) => this.changeByClick("Recive", s[0])}
-              placeholder={this.state.Recive}
-              renderMenuItemChildren={(options, props) => (
-                <div>
-                  <img style={{height: "35px", width: "35px"}}src={`https://tokens.1inch.exchange/${this.getTokenAddressBySymbol(options)}.png`} alt="Logo" />
-                  &nbsp; &nbsp;
-                  {options}
-                </div>
-              )}
-            />
-          </InputGroup.Text>
-          </InputGroup.Prepend>
+          <SelectToken
+           web3={this.props.web3}
+           symbols={this.state.symbols}
+           tokens={this.state.tokens}
+           onChangeTypeHead={this.onChangeTypeHead}
+           direction="Recive"
+           currentSymbol={this.state.Recive}
+           pushNewTokenInList={this.pushNewTokenInList}
+          />
           <Form.Control
           type="number"
           placeholder={this.state.AmountRecive}
