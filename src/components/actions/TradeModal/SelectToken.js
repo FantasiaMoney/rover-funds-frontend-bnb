@@ -95,17 +95,11 @@ class SelectToken extends Component {
   render() {
    return (
       <div>
-      <InputGroup className="mb-3">
-      <InputGroup.Prepend>
       <InputGroup.Text>
-
-        <Button variant="outline-primary" onClick={() => this.setState({ ShowModal: true })}>
+        <Button variant="light" onClick={() => this.setState({ ShowModal: true })}>
           {this.props.currentSymbol}
         </Button>
-
       </InputGroup.Text>
-      </InputGroup.Prepend>
-      </InputGroup>
 
       <Modal
       size="lg"
