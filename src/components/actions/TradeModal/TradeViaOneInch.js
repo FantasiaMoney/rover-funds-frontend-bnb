@@ -348,7 +348,6 @@ class TradeViaOneInch extends Component {
       try{
         return await this.getRateFrom1inchApi(from, to, src)
       }catch(e){
-        alert("There is no data for this pair at 1 inch")
         return 0
       }
 
