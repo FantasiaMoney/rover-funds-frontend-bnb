@@ -144,7 +144,7 @@ class SelectToken extends Component {
               placeholder="Type symbol or paste token address"
               renderMenuItemChildren={(options, props) => (
                 <div>
-                  <img style={{height: "35px", width: "35px"}}src={`https://tokens.1inch.exchange/${this.getTokenAddressBySymbol(options)}.png`} alt="ERC20" />
+                  <img style={{height: "35px", width: "35px"}}src={`https://tokens.1inch.exchange/${this.getTokenAddressBySymbol(options)}.png`} alt="TOKEN" />
                   &nbsp; &nbsp;
                   {options}
                 </div>
