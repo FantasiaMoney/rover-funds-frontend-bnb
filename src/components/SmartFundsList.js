@@ -236,7 +236,6 @@ class SmartFundsList extends Component{
          <br/>
          <SortFunds/>
          <br/>
-
          <FundsNav/>
 
          <ListGroup variant="flush">
