@@ -5,7 +5,16 @@ import axios from 'axios'
 import getFundsList from "../utils/getFundsList"
 import getFundData from "../utils/getFundData"
 
-import { Card, ListGroup, Row, Col, Badge, Button, ButtonGroup } from "react-bootstrap"
+import {
+  Card,
+  ListGroup,
+  Row,
+  Col,
+  Badge,
+  Button,
+  ButtonGroup
+} from "react-bootstrap"
+
 import { NavLink } from 'react-router-dom'
 import {
   // NeworkID,
@@ -32,6 +41,7 @@ import PopupMsg from './templates/PopupMsg'
 import PagePagination from './navigation/PagePagination'
 import FilterAndSearch from './navigation/FilterAndSearch/FilterAndSearch'
 import FundsNav from './navigation/FundsNav'
+import SortFunds from './navigation/SortFunds'
 import MultiColorBar from './charts/MultiColorBar/MultiColorBar'
 
 class SmartFundsList extends Component{
@@ -222,6 +232,10 @@ class SmartFundsList extends Component{
          </div>
          </div>
          </Row>
+
+         <br/>
+         <SortFunds/>
+         <br/>
 
          <FundsNav/>
 
