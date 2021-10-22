@@ -10,7 +10,7 @@ import { fromWei } from 'web3-utils'
 import { Card, ListGroup, Row, Col, Badge, Button, ButtonGroup } from "react-bootstrap"
 import { NavLink } from 'react-router-dom'
 
-// import MainPageCharts from '../charts/MainPageCharts'
+import MainPageCharts from '../charts/MainPageCharts'
 
 import FakeButton from '../templates/FakeButton'
 import FakeMaterializeButton from '../templates/FakeMaterializeButton'
@@ -24,6 +24,10 @@ import PagePagination from '../navigation/PagePagination'
 import FilterAndSearch from '../navigation/FilterAndSearch/FilterAndSearch'
 import FundsNav from '../navigation/FundsNav'
 import SortFunds from '../navigation/SortFunds'
+
+import {
+  NeworkID
+} from '../../config'
 
 import MultiColorBar from '../charts/MultiColorBar/MultiColorBar'
 
@@ -215,7 +219,6 @@ class SmartFundsListWithoutWeb3 extends Component{
              <Col><ManagerModal address={item.owner}/></Col>
              </Row>
              {
-               /*
                NeworkID === 56 ?
                (
                  <div align="center">
@@ -226,7 +229,6 @@ class SmartFundsListWithoutWeb3 extends Component{
                (
                  <strong>Charts available only in mainnet</strong>
                )
-               */
              }
              <div>
              <ButtonGroup horizontal="true">

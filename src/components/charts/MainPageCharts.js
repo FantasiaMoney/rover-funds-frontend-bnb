@@ -3,26 +3,23 @@ import LineChart from './containers/LineChart'
 import Loading from '../templates/Spiners/Loading'
 import axios from 'axios'
 import { Col, Row } from "react-bootstrap"
+import { fromWei } from 'web3-utils';
 
-const BloxyChartsLink = `https://api.bloxy.info/widget/address_value_daily?price_currency=ETH&key=${process.env.REACT_APP_BLOXY_KEY}&address=`
+const BloxyChartsLink = `https://charts-bsc.cotrader.com/api/smartfund/`
 
 class MainPageCharts extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-    DWdata: {
-    labels: [],
-    datasets: []
-    },
-    ROIdata: {
-    labels: [],
-    datasets: []
-    },
     PROFITdata: {
     labels: [],
     datasets: []
     },
     DAILYVALUEdata: {
+    labels: [],
+    datasets: []
+    },
+    ROIdata: {
     labels: [],
     datasets: []
     },
@@ -52,47 +49,24 @@ class MainPageCharts extends React.Component {
   updateChartsData = async () => {
     try{
       const data = await axios.get(BloxyChartsLink + this.props.address)
-      if(!data.data.hasOwnProperty('error')){
-        this.parseData(data)
-      }else{
-        console.log("Can not load charts data ", data.data.error)
-        this.setState({ error:true })
-      }
+      this.parseData(JSON.parse(data.data.result.balance))
     }catch(e){
       console.log("Can not load charts data ", e)
       this.setState({ error:true })
     }
   }
 
+
   parseData(data){
-    data = data.data.map((v) => v)
-    // remove wrong day
-    const wrongDay = data.length > 1 ? data[data.length - 2].date : null
-    data = data.map((v) => v.date !== wrongDay && v)
+    const date = data.map(i => new Date(i.date * 1000).toLocaleDateString("en-US"))
+    const profit = data.map(i => i.fundProfitFromWei)
+    const daylyValue = data.map(i => i.fundValueFromWei)
+    const roi = data.map(i => i.fundProfitFromWei / (Number(fromWei(String(i.totalWeiDeposited))) - Number(fromWei(String(i.totalWeiWithdrawn)))))
 
-    const date = data.map(function(v) {
-      return v.date
-    });
-
-    const deposit_value = data.map(function(v) {
-      return v.deposit_value
-    });
-
-    const withdraw_value = data.map(function(v) {
-      return -v.withdraw_value
-    });
-
-    const profit = data.map(function(v) {
-      return v.profit
-    });
-
-    const roi = data.map(function(v) {
-      return v.profit / v.deposited
-    });
-
-    const daylyValue = data.map(function(v) {
-      return v.daily_value
-    });
+    date.unshift(0)
+    profit.unshift(0)
+    daylyValue.unshift(0)
+    roi.unshift(0)
 
     const commonData = {
       fill: false,
@@ -109,47 +83,6 @@ class MainPageCharts extends React.Component {
       borderJoinStyle: 'miter',
     }
 
-    const parsedDWdata = {
-      labels:date,
-      datasets: [{
-      label: 'Deposit',
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      ...commonData,
-      data: deposit_value.map(item => Number(item).toFixed(4))
-    },
-    {
-      label: 'Withdraw',
-      backgroundColor: 'rgba(219,112,147, 0.4)',
-      borderColor: 'rgba(219,112,147)',
-      pointBorderColor: 'rgba(219,112,147)',
-      pointHoverBackgroundColor: 'rgba(219,112,147)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      ...commonData,
-      data: withdraw_value.map(item => Number(item).toFixed(4))
-    }
-      ]
-    }
-
-
-    const parsedROIdata = {
-      labels:date,
-      datasets: [
-        {
-          label: 'ROI',
-          backgroundColor: 'rgba(135,206,250, 0.4)',
-          borderColor: 'rgba(135,206,250)',
-          pointBorderColor: 'rgba(135,206,250)',
-          pointHoverBackgroundColor: 'rgba(135,206,250)',
-          pointHoverBorderColor: 'rgba(135,206,250)',
-          ...commonData,
-          data: roi.map(item => Number(item).toFixed(4))
-        }
-      ]
-    }
 
     const parsedPROFITdata = {
       labels:date,
@@ -184,12 +117,28 @@ class MainPageCharts extends React.Component {
       ]
     }
 
+    const parsedROIdata = {
+      labels:date,
+      datasets: [
+        {
+          label: 'ROI',
+          backgroundColor: 'rgba(135,206,250, 0.4)',
+          borderColor: 'rgba(135,206,250)',
+          pointBorderColor: 'rgba(135,206,250)',
+          pointHoverBackgroundColor: 'rgba(135,206,250)',
+          pointHoverBorderColor: 'rgba(135,206,250)',
+          ...commonData,
+          data: roi.map(item => Number(item).toFixed(4))
+        }
+      ]
+    }
+
+
     if(this._isMounted){
       this.setState({
-        DWdata: parsedDWdata,
-        ROIdata: parsedROIdata,
         PROFITdata: parsedPROFITdata,
         DAILYVALUEdata: parsedDAILYVALUEdata,
+        ROIdata: parsedROIdata,
         isDataLoad: true
       })
     }
@@ -209,17 +158,17 @@ class MainPageCharts extends React.Component {
            (
            <React.Fragment>
            {
-             this.state.DWdata.labels.length > 0
+             this.state.PROFITdata.labels.length > 0
              ?
              (
                <div className="fund-page-charts">
                <div>
-               <LineChart data={this.state.DWdata} />
-
                <LineChart data={this.state.ROIdata}/>
-
+               </div>
+               <div>
                <LineChart data={this.state.PROFITdata} />
-
+               </div>
+               <div>
                <LineChart data={this.state.DAILYVALUEdata} />
                </div>
                </div>
@@ -227,12 +176,6 @@ class MainPageCharts extends React.Component {
              :
              (
                <Row>
-               <Col>
-               <strong>"No activity"</strong>
-               </Col>
-               <Col>
-               <strong>"No activity"</strong>
-               </Col>
                <Col>
                <strong>"No activity"</strong>
                </Col>

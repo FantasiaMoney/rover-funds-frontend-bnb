@@ -17,7 +17,7 @@ import {
 
 import { NavLink } from 'react-router-dom'
 import {
-  // NeworkID,
+  NeworkID,
   APIEnpoint
 } from '../config'
 
@@ -37,7 +37,7 @@ import Loading from './templates/Spiners/Loading'
 import Pending from './templates/Spiners/Pending'
 import PopupMsg from './templates/PopupMsg'
 
-// import MainPageCharts from './charts/MainPageCharts'
+import MainPageCharts from './charts/MainPageCharts'
 import PagePagination from './navigation/PagePagination'
 import FilterAndSearch from './navigation/FilterAndSearch/FilterAndSearch'
 import FundsNav from './navigation/FundsNav'
@@ -319,7 +319,6 @@ class SmartFundsList extends Component{
 
          <div className="justify-content-md-center">
           {
-            /*
             NeworkID === 56 ?
             (
               <div align="center">
@@ -330,7 +329,6 @@ class SmartFundsList extends Component{
             (
               <strong>Charts available only in mainnet</strong>
             )
-            */
           }
           </div>
           <Row className="justify-content-md-center mb-3">
