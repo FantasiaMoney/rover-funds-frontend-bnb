@@ -182,7 +182,7 @@ export default function PersistentDrawerLeft(props) {
           </IconButton>
           <Typography variant="inherit" className={classes.logo} noWrap>
             <Link to={props.web3 ? "/" : "/web3off"} style={{ textDecoration: 'none' }} className={classes.nested}>
-            <img style={{width: 'auto', height: '24px'}} src="/logo.png" alt="CoTrader"/>
+            <img style={{width: 'auto', height: '38px'}} src="/logo.png" alt="CoTrader"/>
             </Link>
           </Typography>
 

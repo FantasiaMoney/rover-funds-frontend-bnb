@@ -5,7 +5,7 @@ class Footer extends Component {
   render() {
     return (
       <Row className="footer">
-      <Col>Since 2018: world's first live EthFi investments funds marketplace</Col>
+      <Col>Rover Funds - powered by <a href="https://cotrader.com/" target="_blank">CoTrader</a></Col>
       </Row>
     )
   }
